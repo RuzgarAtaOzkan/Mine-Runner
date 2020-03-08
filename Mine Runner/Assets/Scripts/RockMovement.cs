@@ -37,8 +37,7 @@ public class RockMovement : MonoBehaviour
     {
         ParticleSystem destroyedRockFX = Instantiate(rockDestroyFX, collision.gameObject.transform.position, Quaternion.identity);
         Transform[] destroyedRockParticles = destroyedRockFX.GetComponentsInChildren<Transform>();
-        foreach (Transform child in destroyedRockParticles)
-        { child.localScale = new Vector3(1.1f, 1.1f, 1.1f); }
+        foreach (Transform child in destroyedRockParticles) { child.localScale = new Vector3(1.1f, 1.1f, 1.1f); }
         Destroy(destroyedRockFX, destroyedRockFX.duration);
     }
 
@@ -46,10 +45,7 @@ public class RockMovement : MonoBehaviour
     {
         transform.Rotate(Vector3.forward * rotationSpeed, Space.Self);
         rb.AddForce(Vector3.right * 400f * Time.deltaTime);
-        if (rb.velocity.x > 4.5f)
-        {
-            rb.velocity = new Vector3(4.5f, rb.velocity.y, rb.velocity.z);
-        }
+        if (rb.velocity.x > 4.5f) { rb.velocity = new Vector3(4.5f, rb.velocity.y, rb.velocity.z); }
     }
 
     private IEnumerator AddCrossForce()
@@ -70,10 +66,7 @@ public class RockMovement : MonoBehaviour
         while (true)
         {
             shouldDeform = false;
-            if (rb.velocity.x < 0.5f)
-            {
-                shouldDeform = true;
-            }
+            if (rb.velocity.x < 0.5f) { shouldDeform = true; }
             yield return new WaitForSeconds(2f);
         }
     }

@@ -12,7 +12,6 @@ public class CameraFollow : MonoBehaviour
         targetSkeleton = GameObject.Find("skeleton").transform;
     }
 
-    // Update is called once per frame
     void Update()
     {
         transform.position = targetSkeleton.transform.position + offset;
