@@ -6,16 +6,26 @@ using UnityEngine;
 public class SkeletonController : MonoBehaviour
 {
     Rigidbody rb;
+    Animator animator;
     float speed = 4.8f;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
         FreezeRotations();
         MovePosition();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            animator.SetBool("isDigging", true);
+        }
     }
 
     private void MovePosition()
