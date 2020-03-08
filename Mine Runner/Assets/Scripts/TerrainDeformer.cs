@@ -79,7 +79,6 @@ public class TerrainDeformer : MonoBehaviour
 
     public float inds;
     public Transform go;
-
     private void Update()
     {
         DeformTerrainByInput();
@@ -87,7 +86,6 @@ public class TerrainDeformer : MonoBehaviour
         { 
             DeformTerrain(rock.position, inds);
         }
-
     }
 
     // todo replace the mouse position with touch position deform terrain on mouse position for now,
@@ -122,7 +120,7 @@ public class TerrainDeformer : MonoBehaviour
         }
     }
 
-    private IEnumerator SandParticlesGarbageCollector()
+    private IEnumerator SandParticlesGarbageCollector() // delete all the particel gameobject in every so for performance purposes
     {
         while (true)
         {
@@ -131,7 +129,7 @@ public class TerrainDeformer : MonoBehaviour
             {
                 Destroy(garbageParticle);
             }
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(4f);
         }
     }
 

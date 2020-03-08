@@ -646,6 +646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrainDeformationTextureNum: 1
+  rock: {fileID: 1109911966}
   sandDeformParticles: {fileID: 198537984209914932, guid: f684620ed328a6643b04bff89c1a17bd,
     type: 3}
   inds: 12
@@ -1151,6 +1152,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 782623284}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1109911966 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7338618689535840697, guid: d57d6419728ca4fa486055a9b54eb326,
+    type: 3}
+  m_PrefabInstance: {fileID: 782623284}
+  m_PrefabAsset: {fileID: 0}
 --- !u!135 &1109911967
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1176,6 +1183,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66562073eeeb1b543a3100719bc5159b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shouldDeform: 0
+  rockDestroyFX: {fileID: 198537984209914932, guid: f684620ed328a6643b04bff89c1a17bd,
+    type: 3}
 --- !u!54 &1109911969
 Rigidbody:
   m_ObjectHideFlags: 0

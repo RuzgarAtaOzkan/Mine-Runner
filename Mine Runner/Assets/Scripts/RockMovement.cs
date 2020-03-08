@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class RockMovement : MonoBehaviour
     Rigidbody rb;
     float rotationSpeed = -3f;
     public bool shouldDeform = false;
+
+    [SerializeField] ParticleSystem rockDestroyFX;
 
     void Start()
     {
@@ -18,19 +21,30 @@ public class RockMovement : MonoBehaviour
     {
         MoveRockAndRotate();
     }
-
+    
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Obstacle")
         {
+            DestroyObstacleAnimation(collision);
             Destroy(collision.gameObject);
         }
+    }
+
+    [Obsolete]
+    private void DestroyObstacleAnimation(Collision collision)
+    {
+        ParticleSystem destroyedRockFX = Instantiate(rockDestroyFX, collision.gameObject.transform.position, Quaternion.identity);
+        Transform[] destroyedRockParticles = destroyedRockFX.GetComponentsInChildren<Transform>();
+        foreach (Transform child in destroyedRockParticles)
+        { child.localScale = new Vector3(1.1f, 1.1f, 1.1f); }
+        Destroy(destroyedRockFX, destroyedRockFX.duration);
     }
 
     private void MoveRockAndRotate()
     {
         transform.Rotate(Vector3.forward * rotationSpeed, Space.Self);
-        rb.AddForce(Vector3.right * 500f * Time.deltaTime);
+        rb.AddForce(Vector3.right * 400f * Time.deltaTime);
         if (rb.velocity.x > 4.5f)
         {
             rb.velocity = new Vector3(4.5f, rb.velocity.y, rb.velocity.z);
@@ -39,7 +53,8 @@ public class RockMovement : MonoBehaviour
 
     private IEnumerator AddCrossForce()
     {
-        float forceToAdd = 170f;
+        yield return new WaitForSeconds(1f);
+        float forceToAdd = -170f;
         while (true)
         {
             rb.AddForce(Vector3.forward * forceToAdd);
