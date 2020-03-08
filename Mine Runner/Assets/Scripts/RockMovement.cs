@@ -15,8 +15,7 @@ public class RockMovement : MonoBehaviour
     void Update()
     {
         transform.Rotate(Vector3.forward * rotationSpeed, Space.Self);
-        rb.AddForce(Vector3.right * 150f * Time.deltaTime);
-
+        rb.AddForce(Vector3.right * 200f * Time.deltaTime);
         if (rb.velocity.x > 4f)
         {
             rb.velocity = new Vector3(4f, rb.velocity.y, rb.velocity.z);

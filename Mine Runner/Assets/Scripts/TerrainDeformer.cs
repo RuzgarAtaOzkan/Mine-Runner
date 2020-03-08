@@ -44,7 +44,8 @@ public class TerrainDeformer : MonoBehaviour
     private float[,,] alphaMapBackup;
 
     // todo my part of script
-    [SerializeField] Transform mouse;
+    [SerializeField] ParticleSystem sandDeformParticles;
+    GameObject ground;
 
     void Start()
     {
@@ -59,6 +60,8 @@ public class TerrainDeformer : MonoBehaviour
             heightMapBackup = terr.terrainData.GetHeights(0, 0, hmWidth, hmHeight);
             alphaMapBackup = terr.terrainData.GetAlphamaps(0, 0, alphaMapWidth, alphaMapHeight);
         }
+        ground = GameObject.Find("Ground");
+        ProcessCoroutines();
     }
 
     //this has to be done because terrains for some reason or another terrains don't reset after you run the app
@@ -76,15 +79,60 @@ public class TerrainDeformer : MonoBehaviour
 
     private void Update()
     {
-        RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        DeformTerrainByInput();
+    }
 
+    // todo replace the mouse position with touch position deform terrain on mouse position for now,
+    private void DeformTerrainByInput()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
         if (Physics.Raycast(ray, out hit))
         {
             DeformTerrain(hit.point, inds);
         }
-
     }
+
+    // instantiate sandDeform particles in every so if hit is equals to ground
+    private IEnumerator ProcessSandParticles()
+    {
+        while (true)
+        {
+            Vector3 mousePos = Input.mousePosition;
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(mousePos);
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.gameObject == ground)
+                {
+                    ParticleSystem sandDeformEffects = Instantiate(sandDeformParticles, hit.point + Vector3.right * 3f, Quaternion.identity);
+                    Destroy(sandDeformEffects, 0.2f);
+                }
+            }
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
+
+    private IEnumerator SandParticlesGarbageCollector()
+    {
+        while (true)
+        {
+            GameObject[] garbageParticles = GameObject.FindGameObjectsWithTag("SandDeformParticle");
+            foreach (GameObject garbageParticle in garbageParticles)
+            {
+                Destroy(garbageParticle);
+            }
+            yield return new WaitForSeconds(2f);
+        }
+    }
+
+    private void ProcessCoroutines()
+    {
+        StartCoroutine(ProcessSandParticles());
+        StartCoroutine(SandParticlesGarbageCollector());
+    }
+    // ===============================
 
     public void DestroyTerrain(Vector3 pos, float craterSizeInMeters)
     {
