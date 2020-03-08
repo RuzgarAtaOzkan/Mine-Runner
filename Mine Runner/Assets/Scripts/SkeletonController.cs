@@ -6,7 +6,7 @@ using UnityEngine;
 public class SkeletonController : MonoBehaviour
 {
     Rigidbody rb;
-    [SerializeField] float speed = 7f;
+    float speed = 5.6f;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -22,7 +22,7 @@ public class SkeletonController : MonoBehaviour
     private void MovePosition()
     {
         rb.MovePosition(rb.position + Vector3.right * speed * Time.deltaTime);
-        rb.AddForce(Vector3.forward * -250f);
+        rb.AddForce(Vector3.forward * -270f);
     }
 
     private void FreezeRotations()

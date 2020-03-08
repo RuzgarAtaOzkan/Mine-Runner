@@ -5,7 +5,9 @@ using UnityEngine;
 public class RockMovement : MonoBehaviour
 {
     Rigidbody rb;
-    float rotationSpeed = -2f;
+
+    float rotationSpeed = -3f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -15,10 +17,18 @@ public class RockMovement : MonoBehaviour
     void Update()
     {
         transform.Rotate(Vector3.forward * rotationSpeed, Space.Self);
-        rb.AddForce(Vector3.right * 250f * Time.deltaTime);
+        rb.AddForce(Vector3.right * 400f * Time.deltaTime);
         if (rb.velocity.x > 4f)
         {
             rb.velocity = new Vector3(4f, rb.velocity.y, rb.velocity.z);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            Destroy(collision.gameObject);
         }
     }
 }
