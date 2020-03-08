@@ -44,8 +44,7 @@ public class TerrainDeformer : MonoBehaviour
     private float[,,] alphaMapBackup;
 
     // todo my part of script
-    [SerializeField] Transform runner;
-    [SerializeField] Transform rock;
+    [SerializeField] Transform mouse;
 
     void Start()
     {
@@ -73,13 +72,19 @@ public class TerrainDeformer : MonoBehaviour
     }
 
     public float inds;
-    public float rockDeformationRadius;
     public Transform go;
 
+    
     private void Update()
     {
-        DeformTerrain(runner.position, inds);
-        DeformTerrain(rock.position, rockDeformationRadius);
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            DeformTerrain(hit.point, inds);
+        }
+
     }
 
     public void DestroyTerrain(Vector3 pos, float craterSizeInMeters)
