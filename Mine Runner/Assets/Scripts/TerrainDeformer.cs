@@ -45,9 +45,9 @@ public class TerrainDeformer : MonoBehaviour
 
     // todo my part of script
     RockMovement rockMovement;
+    GameObject ground;
     [SerializeField] Transform rock;
     [SerializeField] ParticleSystem sandDeformParticles;
-    GameObject ground;
 
     void Start()
     {

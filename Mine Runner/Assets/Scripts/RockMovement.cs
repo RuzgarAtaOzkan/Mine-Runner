@@ -21,7 +21,8 @@ public class RockMovement : MonoBehaviour
     {
         MoveRockAndRotate();
     }
-    
+
+    [Obsolete]
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Obstacle")
