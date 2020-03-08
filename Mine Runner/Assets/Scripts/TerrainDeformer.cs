@@ -45,6 +45,7 @@ public class TerrainDeformer : MonoBehaviour
 
     // todo my part of script
     [SerializeField] Transform runner;
+    [SerializeField] Transform rock;
 
     void Start()
     {
@@ -77,6 +78,7 @@ public class TerrainDeformer : MonoBehaviour
     private void Update()
     {
         DeformTerrain(runner.position, inds);
+        DeformTerrain(rock.position, 15);
     }
 
     public void DestroyTerrain(Vector3 pos, float craterSizeInMeters)
