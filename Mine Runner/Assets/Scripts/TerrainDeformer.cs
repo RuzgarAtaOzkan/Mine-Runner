@@ -73,12 +73,13 @@ public class TerrainDeformer : MonoBehaviour
     }
 
     public float inds;
+    public float rockDeformationRadius;
     public Transform go;
 
     private void Update()
     {
         DeformTerrain(runner.position, inds);
-        DeformTerrain(rock.position, 15);
+        DeformTerrain(rock.position, rockDeformationRadius);
     }
 
     public void DestroyTerrain(Vector3 pos, float craterSizeInMeters)

@@ -159,6 +159,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &432714089 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 432714089, guid: d57d6419728ca4fa486055a9b54eb326,
+    type: 3}
+  m_PrefabInstance: {fileID: 782623284}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &509883499
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,8 +256,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrainDeformationTextureNum: 1
   runner: {fileID: 126768360}
-  rock: {fileID: 1109911966}
+  rock: {fileID: 432714089}
   inds: 10
+  rockDeformationRadius: 10
   go: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
@@ -352,6 +359,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 432714088, guid: d57d6419728ca4fa486055a9b54eb326, type: 3}
+      propertyPath: m_Name
+      value: TerrainDeformationTargetForRock
+      objectReference: {fileID: 0}
+    - target: {fileID: 432714089, guid: d57d6419728ca4fa486055a9b54eb326, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0054
+      objectReference: {fileID: 0}
     - target: {fileID: 2942051580892192243, guid: d57d6419728ca4fa486055a9b54eb326,
         type: 3}
       propertyPath: m_Name
@@ -511,12 +526,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: -2.31, y: 15, z: 0}
---- !u!4 &1109911966 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7338618689535840697, guid: d57d6419728ca4fa486055a9b54eb326,
-    type: 3}
-  m_PrefabInstance: {fileID: 782623284}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1327572939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -524,6 +533,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 126768359, guid: 790cbaa43a4b19c4a964617119f8d796, type: 3}
+      propertyPath: m_Name
+      value: TerrainDeformationTargetForPlayer
+      objectReference: {fileID: 0}
     - target: {fileID: 977136844864435615, guid: 790cbaa43a4b19c4a964617119f8d796,
         type: 3}
       propertyPath: m_LocalPosition.x
