@@ -6,11 +6,10 @@ using UnityEngine;
 public class SkeletonController : MonoBehaviour
 {
     Rigidbody rb;
-    float speed = 5.6f;
+    float speed = 4.8f;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.AddForce(Vector3.up * 100f);
     }
 
     void Update()

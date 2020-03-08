@@ -44,6 +44,8 @@ public class TerrainDeformer : MonoBehaviour
     private float[,,] alphaMapBackup;
 
     // todo my part of script
+    RockMovement rockMovement;
+    [SerializeField] Transform rock;
     [SerializeField] ParticleSystem sandDeformParticles;
     GameObject ground;
 
@@ -61,6 +63,7 @@ public class TerrainDeformer : MonoBehaviour
             alphaMapBackup = terr.terrainData.GetAlphamaps(0, 0, alphaMapWidth, alphaMapHeight);
         }
         ground = GameObject.Find("Ground");
+        rockMovement = FindObjectOfType<RockMovement>();
         ProcessCoroutines();
     }
 
@@ -80,6 +83,11 @@ public class TerrainDeformer : MonoBehaviour
     private void Update()
     {
         DeformTerrainByInput();
+        if (rockMovement.shouldDeform) // deform terrain on rock if its velocity is below 0.5
+        { 
+            DeformTerrain(rock.position, inds);
+        }
+
     }
 
     // todo replace the mouse position with touch position deform terrain on mouse position for now,
