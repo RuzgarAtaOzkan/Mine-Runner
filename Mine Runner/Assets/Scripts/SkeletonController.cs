@@ -22,7 +22,7 @@ public class SkeletonController : MonoBehaviour
     private void MovePosition()
     {
         rb.MovePosition(rb.position + Vector3.right * speed * Time.deltaTime);
-        rb.AddForce(Vector3.forward * -100f);
+        rb.AddForce(Vector3.forward * -250f);
     }
 
     private void FreezeRotations()

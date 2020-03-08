@@ -74,7 +74,6 @@ public class TerrainDeformer : MonoBehaviour
     public float inds;
     public Transform go;
 
-    
     private void Update()
     {
         RaycastHit hit;
