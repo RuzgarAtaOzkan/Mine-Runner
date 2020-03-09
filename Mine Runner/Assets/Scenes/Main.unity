@@ -1381,10 +1381,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 675639972, guid: 790cbaa43a4b19c4a964617119f8d796, type: 3}
-      propertyPath: flashMat
-      value: 
-      objectReference: {fileID: 2100000, guid: 58e7b525f0f02624797a08e9e8b2f612, type: 2}
     - target: {fileID: 977136844864435615, guid: 790cbaa43a4b19c4a964617119f8d796,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1440,15 +1436,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 1405981387318021336, guid: 790cbaa43a4b19c4a964617119f8d796,
-        type: 3}
-      propertyPath: m_TagString
-      value: Pickaxe
-      objectReference: {fileID: 0}
     - target: {fileID: 4311111495703447436, guid: 790cbaa43a4b19c4a964617119f8d796,
         type: 3}
       propertyPath: m_Name
       value: skeleton
+      objectReference: {fileID: 0}
+    - target: {fileID: 7022553330331521149, guid: 790cbaa43a4b19c4a964617119f8d796,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7022553330331521149, guid: 790cbaa43a4b19c4a964617119f8d796,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 116
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 790cbaa43a4b19c4a964617119f8d796, type: 3}
