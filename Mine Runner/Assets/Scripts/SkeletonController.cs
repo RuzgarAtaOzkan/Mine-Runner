@@ -8,6 +8,7 @@ public class SkeletonController : MonoBehaviour
     Rigidbody rb;
     Animator animator;
     RockMovement rockMovement;
+    [SerializeField] Material flashMat;
     int obstaclesLength;
     float speed = 4.8f;
 
@@ -34,10 +35,10 @@ public class SkeletonController : MonoBehaviour
         if (collision.gameObject.tag == "Obstacle")
         {
             animator.SetBool("isDigging", true);
+            StartCoroutine(FlashObstacle(collision, flashMat, 0.1f));
             obstacleWeDig = collision;
             float animDuration = rockMovement.DestroyObstacleAnimation(collision, 0.7f, 0.7f, 0.7f);
-            float destroyDuration = animDuration - (animDuration / 1.5f);
-            
+            float destroyDuration = animDuration - (animDuration / 1.20f);
             Destroy(collision.gameObject, destroyDuration);
         }
     }
@@ -48,6 +49,42 @@ public class SkeletonController : MonoBehaviour
         {
             animator.SetBool("isDigging", false);
         }
+    }
+
+    public IEnumerator FlashObstacle(Collision collision, Material flashMat, float flashTime)
+    {
+        int counter = 0;
+        int switcher = 1;
+        bool isFlashing = true;
+        Material[] savedMaterials = collision.gameObject.GetComponent<MeshRenderer>().materials;
+        while (isFlashing)
+        {
+            Material[] flashMaterialsToPlace = new Material[savedMaterials.Length];
+            for (int i = 0; i < flashMaterialsToPlace.Length; i++)
+            {
+                flashMaterialsToPlace[i] = flashMat;
+            }
+            switch (switcher)
+            {
+                case 1:
+                    if (collision.gameObject.GetComponent<MeshRenderer>() != null)
+                    {
+                        collision.gameObject.GetComponent<MeshRenderer>().materials = savedMaterials;
+                    }
+                    break;
+                case -1:
+                    if (collision.gameObject.GetComponent<MeshRenderer>() != null)
+                    {
+                        collision.gameObject.GetComponent<MeshRenderer>().materials = flashMaterialsToPlace;
+                    }
+                    break;
+            }
+            counter++;
+            switcher *= -1;
+            if (counter > 40) { isFlashing = false; }
+            yield return new WaitForSeconds(flashTime);
+        }
+        
     }
 
     private void KeepTrackOfObjectsWithTag(string tagName)

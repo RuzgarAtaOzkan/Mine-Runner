@@ -79,10 +79,7 @@ public class RockMovement : MonoBehaviour
         while (true)
         {
             shouldDeform = false;
-            if (rb.velocity.x < 0.5f) 
-            { 
-                shouldDeform = true;
-            }
+            if (rb.velocity.x < 0.5f) { shouldDeform = true; }
             yield return null;
         }
     }

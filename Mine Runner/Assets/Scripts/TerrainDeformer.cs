@@ -105,7 +105,7 @@ public class TerrainDeformer : MonoBehaviour
     }
 
     // instantiate sandDeform particles in every so if hit is equals to ground
-    private IEnumerator ProcessSandParticles(float particleSpawnTime) //independent
+    private IEnumerator ProcessSandParticles(float particleSpawnTime) //independent 0.2f
     {
         while (true)
         {
@@ -116,7 +116,7 @@ public class TerrainDeformer : MonoBehaviour
             {
                 if (hit.collider.gameObject == ground)
                 {
-                    ParticleSystem sandDeformEffects = Instantiate(sandDeformParticles, hit.point + Vector3.right * 3f, Quaternion.identity);
+                    ParticleSystem sandDeformEffects = Instantiate(sandDeformParticles, hit.point + Vector3.right * 4f, Quaternion.identity);
                     Destroy(sandDeformEffects, particleSpawnTime);
                 }
             }
