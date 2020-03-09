@@ -8,6 +8,7 @@ public class RockMovement : MonoBehaviour
     Rigidbody rb;
     float rotationSpeed = -3f;
     public bool shouldDeform = false;
+    public bool isCrushed = false;
 
     [SerializeField] ParticleSystem rockDestroyFX;
 
@@ -29,6 +30,10 @@ public class RockMovement : MonoBehaviour
         {
             DestroyObstacleAnimation(collision);
             Destroy(collision.gameObject);
+        }
+        if (collision.gameObject.tag == "Player")
+        {
+            isCrushed = true;
         }
     }
 

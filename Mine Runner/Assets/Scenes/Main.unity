@@ -1533,6 +1533,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: skeleton
       objectReference: {fileID: 0}
+    - target: {fileID: 4311111495703447436, guid: 790cbaa43a4b19c4a964617119f8d796,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 7135248861957953765, guid: 790cbaa43a4b19c4a964617119f8d796,
         type: 3}
       propertyPath: m_Avatar
