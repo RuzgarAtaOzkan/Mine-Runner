@@ -17,29 +17,31 @@ public class CameraFollow : MonoBehaviour
     void Update()
     {
         transform.position = targetSkeleton.transform.position + offset;
-        if (rockMovement.isCrushed)
-        {
-            StartCoroutine(CameraShake());
-            rockMovement.isCrushed = false;
-        }
+        if (rockMovement.isCrushed) { ProcessCoroutines(); }
     }
 
-    private IEnumerator CameraShake()
+    private IEnumerator CameraShake(int xMagnitude, int yMagnitude)
     {
+        const float cameraXRotation = 90f;
         bool isShaking = true;
         int shakeCount = 0;
         while (isShaking)
         {
-            const float cameraXRotation = 90f; 
             float currentXRotation = Camera.main.transform.rotation.x;
             float currentYRotation = Camera.main.transform.rotation.y;
-            float xShakeMagnitude = Random.Range(-2f, 2f);
-            float yShakeMagnitude = Random.Range(-2, 2f);
+            float xShakeMagnitude = Random.Range(-xMagnitude, xMagnitude);
+            float yShakeMagnitude = Random.Range(-yMagnitude, yMagnitude);
             Quaternion cameraRotation = Camera.main.transform.rotation;
             transform.rotation = Quaternion.Euler(currentXRotation + xShakeMagnitude + cameraXRotation, currentYRotation + yShakeMagnitude, cameraRotation.z);
             shakeCount++;
             if (shakeCount > 40) { isShaking = false; }
             yield return null;
         }
+        rockMovement.isCrushed = false;
+    }
+
+    private void ProcessCoroutines()
+    {
+        StartCoroutine(CameraShake(2, 2));
     }
 }

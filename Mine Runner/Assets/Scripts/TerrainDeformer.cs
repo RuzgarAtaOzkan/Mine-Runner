@@ -82,9 +82,9 @@ public class TerrainDeformer : MonoBehaviour
     private void Update()
     {
         DeformTerrainByInput();
-        if (rockMovement.shouldDeform) // deform terrain on rock if its velocity is below 0.5
+        if (rockMovement.shouldDeform) // deform terrain on rock if its velocity is below 0.5, beacuse it means that the rock is probably stuck
         { 
-            DeformTerrain(rock.position, inds);
+            DeformTerrain(rock.position, inds + 2f);
         }
     }
 
@@ -96,12 +96,16 @@ public class TerrainDeformer : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(mousePos);
         if (Physics.Raycast(ray, out hit))
         {
-            DeformTerrain(hit.point, inds);
+            if (hit.point.x < terr.terrainData.alphamapHeight || hit.point.z < terr.terrainData.alphamapHeight)
+            {
+                DeformTerrain(hit.point, inds);
+            }
+            
         }
     }
 
     // instantiate sandDeform particles in every so if hit is equals to ground
-    private IEnumerator ProcessSandParticles()
+    private IEnumerator ProcessSandParticles() //independent
     {
         while (true)
         {
@@ -120,7 +124,7 @@ public class TerrainDeformer : MonoBehaviour
         }
     }
 
-    private IEnumerator SandParticlesGarbageCollector() // delete all the particel gameobject in every so for performance purposes
+    private IEnumerator SandParticlesGarbageCollector() //independent // delete all the particel gameobject in every so for performance purposes
     {
         while (true)
         {
@@ -138,7 +142,7 @@ public class TerrainDeformer : MonoBehaviour
         StartCoroutine(ProcessSandParticles());
         StartCoroutine(SandParticlesGarbageCollector());
     }
-    // ===============================
+    // ==============================================
 
     public void DestroyTerrain(Vector3 pos, float craterSizeInMeters)
     {

@@ -7,10 +7,12 @@ public class SkeletonController : MonoBehaviour
 {
     Rigidbody rb;
     Animator animator;
+    RockMovement rockMovement;
     float speed = 4.8f;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        rockMovement = FindObjectOfType<RockMovement>();
         animator = GetComponent<Animator>();
     }
 
@@ -20,11 +22,21 @@ public class SkeletonController : MonoBehaviour
         MovePosition();
     }
 
+    [Obsolete]
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Obstacle")
         {
             animator.SetBool("isDigging", true);
+            rockMovement.DestroyObstacleAnimation(collision, 0.3f, 0.3f, 0.3f);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            animator.SetBool("isDigging", false);
         }
     }
 
