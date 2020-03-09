@@ -105,7 +105,7 @@ public class TerrainDeformer : MonoBehaviour
     }
 
     // instantiate sandDeform particles in every so if hit is equals to ground
-    private IEnumerator ProcessSandParticles() //independent
+    private IEnumerator ProcessSandParticles(float particleSpawnTime) //independent
     {
         while (true)
         {
@@ -117,14 +117,14 @@ public class TerrainDeformer : MonoBehaviour
                 if (hit.collider.gameObject == ground)
                 {
                     ParticleSystem sandDeformEffects = Instantiate(sandDeformParticles, hit.point + Vector3.right * 3f, Quaternion.identity);
-                    Destroy(sandDeformEffects, 0.2f);
+                    Destroy(sandDeformEffects, particleSpawnTime);
                 }
             }
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(particleSpawnTime);
         }
     }
 
-    private IEnumerator SandParticlesGarbageCollector() //independent // delete all the particel gameobject in every so for performance purposes
+    private IEnumerator SandParticlesGarbageCollector(float waitSec) //independent // delete all the particel gameobject in every so for performance purposes
     {
         while (true)
         {
@@ -133,14 +133,14 @@ public class TerrainDeformer : MonoBehaviour
             {
                 Destroy(garbageParticle);
             }
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(waitSec);
         }
     }
 
     private void ProcessCoroutines()
     {
-        StartCoroutine(ProcessSandParticles());
-        StartCoroutine(SandParticlesGarbageCollector());
+        StartCoroutine(ProcessSandParticles(0.2f));
+        StartCoroutine(SandParticlesGarbageCollector(4f));
     }
     // ==============================================
 
