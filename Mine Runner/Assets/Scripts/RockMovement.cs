@@ -44,12 +44,13 @@ public class RockMovement : MonoBehaviour
     }
 
     [Obsolete]
-    public void DestroyObstacleAnimation(Collision collision, float xScale, float yScale, float zScale)
+    public float DestroyObstacleAnimation(Collision collision, float xScale, float yScale, float zScale)
     {
         ParticleSystem destroyedRockFX = Instantiate(rockDestroyFX, collision.gameObject.transform.position, Quaternion.identity);
         Transform[] destroyedRockParticles = destroyedRockFX.GetComponentsInChildren<Transform>();
         foreach (Transform child in destroyedRockParticles) { child.localScale = new Vector3(xScale, yScale, zScale); }
         Destroy(destroyedRockFX, destroyedRockFX.duration);
+        return destroyedRockFX.duration;
     }
 
     private void MoveRockAndRotate()

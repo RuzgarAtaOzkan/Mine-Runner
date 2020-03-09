@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SandDeformParticle
   - Obstacle
+  - Terrain
   layers:
   - Default
   - TransparentFX

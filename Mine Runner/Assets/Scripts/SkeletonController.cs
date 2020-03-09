@@ -8,18 +8,24 @@ public class SkeletonController : MonoBehaviour
     Rigidbody rb;
     Animator animator;
     RockMovement rockMovement;
+    int obstaclesLength;
     float speed = 4.8f;
+
+    Collision obstacleWeDig;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rockMovement = FindObjectOfType<RockMovement>();
         animator = GetComponent<Animator>();
+        obstaclesLength = GameObject.FindGameObjectsWithTag("Obstacle").Length;
     }
 
     void Update()
     {
         FreezeRotations();
         MovePosition();
+        KeepTrackOfObjectsWithTag("Obstacle");
     }
 
     [Obsolete]
@@ -28,7 +34,11 @@ public class SkeletonController : MonoBehaviour
         if (collision.gameObject.tag == "Obstacle")
         {
             animator.SetBool("isDigging", true);
-            rockMovement.DestroyObstacleAnimation(collision, 0.3f, 0.3f, 0.3f);
+            obstacleWeDig = collision;
+            float animDuration = rockMovement.DestroyObstacleAnimation(collision, 0.7f, 0.7f, 0.7f);
+            float destroyDuration = animDuration - (animDuration / 1.5f);
+            
+            Destroy(collision.gameObject, destroyDuration);
         }
     }
 
@@ -39,6 +49,16 @@ public class SkeletonController : MonoBehaviour
             animator.SetBool("isDigging", false);
         }
     }
+
+    private void KeepTrackOfObjectsWithTag(string tagName)
+    {
+        int childrens = GameObject.FindGameObjectsWithTag(tagName).Length;
+        if (childrens < obstaclesLength)
+        {
+            obstaclesLength = childrens;
+            animator.SetBool("isDigging", false);
+        }
+    } 
 
     private void MovePosition()
     {
