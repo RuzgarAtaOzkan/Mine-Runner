@@ -53,6 +53,7 @@ public class RockMovement : MonoBehaviour
         return destroyedRockFX.duration;
     }
 
+
     private void MoveRockAndRotate()
     {
         transform.Rotate(Vector3.forward * rotationSpeed, Space.Self);
