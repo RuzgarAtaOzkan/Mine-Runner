@@ -31,20 +31,12 @@ public class SkeletonController : MonoBehaviour
     [Obsolete]
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Obstacle")
+        if (collision.gameObject.tag == "Obstacle" && collision.gameObject.tag != "Terrain")
         {
             animator.SetBool("isDigging", true);
-            StartCoroutine(FlashObstacle(collision, flashMat, 0.08f));
+            StartCoroutine(FlashObstacle(collision, flashMat, 0.06f));
             DestroyObstacleAfterAnimation(collision);
         }
-    }
-
-    [Obsolete]
-    private void DestroyObstacleAfterAnimation(Collision collision)
-    {
-        float animDuration = rockMovement.DestroyObstacleAnimation(collision, 0.7f, 0.7f, 0.7f);
-        float destroyDuration = animDuration - (animDuration / 1.20f);
-        Destroy(collision.gameObject, destroyDuration);
     }
 
     private void OnCollisionExit(Collision collision)
@@ -53,6 +45,14 @@ public class SkeletonController : MonoBehaviour
         {
             animator.SetBool("isDigging", false);
         }
+    }
+
+    [Obsolete]
+    private void DestroyObstacleAfterAnimation(Collision collision)
+    {
+        float animDuration = rockMovement.DestroyObstacleAnimation(collision, 0.7f, 0.7f, 0.7f);
+        float destroyDuration = animDuration - (animDuration / 1.20f);
+        Destroy(collision.gameObject, destroyDuration); // destroy duration has to be greater than flashObstacle complition
     }
 
     public IEnumerator FlashObstacle(Collision collision, Material flashMat, float flashTime)
@@ -81,12 +81,10 @@ public class SkeletonController : MonoBehaviour
                 }
                 counter++;
                 switcher *= -1;
-                if (counter > 10) { isFlashing = false; }
+                if (counter > 7) { isFlashing = false; } /* this value has to be below destroyDuration otherwise it will try to change the non-existing meshRenderer*/
                 yield return new WaitForSeconds(flashTime);
             }
-            StopAllCoroutines(); // warning, stops all the coroutines
-
-
+            StopAllCoroutines();
         }
     }
 
