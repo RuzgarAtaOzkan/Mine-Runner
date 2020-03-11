@@ -9,7 +9,7 @@ public class RockMovement : MonoBehaviour
     Rigidbody rb;
     [SerializeField] Transform target;
     NavMeshAgent agent;
-    float rotationSpeed = -3f;
+    
     public bool shouldDeform = false;
     public bool isCrushed = false;
 
@@ -56,6 +56,7 @@ public class RockMovement : MonoBehaviour
 
     private void MoveRockAndRotate()
     {
+        float rotationSpeed = -3f;
         transform.Rotate(Vector3.forward * rotationSpeed, Space.Self);
         rb.AddForce(Vector3.right * 400f * Time.deltaTime);
         if (rb.velocity.x > 4.5f) { rb.velocity = new Vector3(4.5f, rb.velocity.y, rb.velocity.z); }

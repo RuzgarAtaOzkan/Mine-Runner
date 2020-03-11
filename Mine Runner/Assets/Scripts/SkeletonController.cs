@@ -85,6 +85,8 @@ public class SkeletonController : MonoBehaviour
                 yield return new WaitForSeconds(flashTime);
             }
             StopAllCoroutines(); // warning, stops all the coroutines
+
+
         }
     }
 
