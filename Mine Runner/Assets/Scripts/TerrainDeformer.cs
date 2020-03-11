@@ -124,6 +124,7 @@ public class TerrainDeformer : MonoBehaviour
         }
     }
 
+    [System.Obsolete]
     private IEnumerator SandParticlesGarbageCollector(float waitSec) //independent // delete all the particel gameobject in every so for performance purposes
     {
         while (true)
@@ -131,7 +132,7 @@ public class TerrainDeformer : MonoBehaviour
             GameObject[] garbageParticles = GameObject.FindGameObjectsWithTag("SandDeformParticle");
             foreach (GameObject garbageParticle in garbageParticles)
             {
-                Destroy(garbageParticle);
+                Destroy(garbageParticle); // garbageParticle.GetComponent<ParticleSystem>().duration, todo might add
             }
             yield return new WaitForSeconds(waitSec);
         }
@@ -140,7 +141,7 @@ public class TerrainDeformer : MonoBehaviour
     private void ProcessCoroutines()
     {
         StartCoroutine(ProcessSandParticles(0.2f));
-        StartCoroutine(SandParticlesGarbageCollector(4f));
+        //StartCoroutine(SandParticlesGarbageCollector(4f));
     }
     // ==============================================
 

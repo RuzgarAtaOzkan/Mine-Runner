@@ -51,10 +51,13 @@ public class SkeletonController : MonoBehaviour
     private void DestroyObstacleAfterAnimation(Collision collision)
     {
         float animDuration = rockMovement.DestroyObstacleAnimation(collision, 0.7f, 0.7f, 0.7f);
+        Debug.Log(animDuration);
         float destroyDuration = animDuration - (animDuration / 1.20f);
+        flashObstacleEdgeValue = destroyDuration;
         Destroy(collision.gameObject, destroyDuration); // destroy duration has to be greater than flashObstacle complition
     }
 
+    float flashObstacleEdgeValue;
     public IEnumerator FlashObstacle(Collision collision, Material flashMat, float flashTime)
     {
         if (collision.gameObject.GetComponent<MeshRenderer>() != null)
@@ -73,18 +76,26 @@ public class SkeletonController : MonoBehaviour
                 switch (switcher)
                 {
                     case 1:
-                        collision.gameObject.GetComponent<MeshRenderer>().materials = savedMaterials;
+                        if (collision.gameObject.tag != "Terrain")
+                        {
+                            collision.gameObject.GetComponent<MeshRenderer>().materials = savedMaterials;
+                        }
                         break;
                     case -1:
-                        collision.gameObject.GetComponent<MeshRenderer>().materials = flashMaterialsToPlace;
+                        if (collision.gameObject.tag != "Terrain")
+                        {
+                            collision.gameObject.GetComponent<MeshRenderer>().materials = flashMaterialsToPlace;
+                        }
                         break;
                 }
                 counter++;
                 switcher *= -1;
-                if (counter > 7) { isFlashing = false; } /* this value has to be below destroyDuration otherwise it will try to change the non-existing meshRenderer*/
+                if (counter > 9) { isFlashing = false; } /* this value has to be below destroyDuration otherwise it will try to change the non-existing meshRenderer */
+                
                 yield return new WaitForSeconds(flashTime);
             }
-            StopAllCoroutines();
+            Debug.Log((9 * flashTime) + " " + flashObstacleEdgeValue); // todo will make a system 
+            StopAllCoroutines(); // warning, stops all the coroutines in script
         }
     }
 
