@@ -48,7 +48,11 @@ public class RockMovement : MonoBehaviour
     {
         ParticleSystem destroyedRockFX = Instantiate(rockDestroyFX, collision.gameObject.transform.position, Quaternion.identity);
         Transform[] destroyedRockParticles = destroyedRockFX.GetComponentsInChildren<Transform>();
-        foreach (Transform child in destroyedRockParticles) { child.localScale = new Vector3(xScale, yScale, zScale); }
+        foreach (Transform destroyedRockParticle in destroyedRockParticles) 
+        {
+            Vector3 scaledPosition = new Vector3(xScale, yScale, zScale);
+            destroyedRockParticle.localScale = scaledPosition; 
+        }
         Destroy(destroyedRockFX, destroyedRockFX.duration);
         return destroyedRockFX.duration;
     }

@@ -48,6 +48,7 @@ public class TerrainDeformer : MonoBehaviour
     GameObject ground;
     [SerializeField] Transform rock;
     [SerializeField] ParticleSystem sandDeformParticles;
+    float minerQuantity = 300f;
 
     void Start()
     {
@@ -88,19 +89,19 @@ public class TerrainDeformer : MonoBehaviour
         }
     }
 
-    // todo replace the mouse position with touch position deform terrain on mouse position for now,
+    // todo replace the mouse position with touch position deform terrain on mouse position for now
+    
     private void DeformTerrainByInput()
     {
         Vector3 mousePos = Input.mousePosition;
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(mousePos);
+        
         if (Physics.Raycast(ray, out hit))
         {
-            if (hit.point.x < terr.terrainData.alphamapHeight || hit.point.z < terr.terrainData.alphamapHeight)
-            {
-                DeformTerrain(hit.point, inds);
-            }
-            
+            DeformTerrain(hit.point, inds);
+            minerQuantity -= 0.9f;
+            Debug.Log((int)minerQuantity);
         }
     }
 

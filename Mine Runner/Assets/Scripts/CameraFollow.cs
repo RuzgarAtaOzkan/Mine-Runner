@@ -27,14 +27,15 @@ public class CameraFollow : MonoBehaviour
         int shakeCount = 0;
         while (isShaking)
         {
-            float currentXRotation = Camera.main.transform.rotation.x;
+            //float currentXRotation = Camera.main.transform.rotation.x;
             float currentYRotation = Camera.main.transform.rotation.y;
             float xShakeMagnitude = Random.Range(-xMagnitude, xMagnitude);
             float yShakeMagnitude = Random.Range(-yMagnitude, yMagnitude);
             Quaternion cameraRotation = Camera.main.transform.rotation;
-            transform.rotation = Quaternion.Euler(currentXRotation + xShakeMagnitude + cameraXRotation, currentYRotation + yShakeMagnitude, cameraRotation.z);
+            Quaternion shakedRotations = Quaternion.Euler(xShakeMagnitude + cameraXRotation, currentYRotation + yShakeMagnitude, cameraRotation.z);
+            transform.rotation = shakedRotations;
             shakeCount++;
-            if (shakeCount > 40) { isShaking = false; }
+            if (shakeCount > 20) { isShaking = false; }
             yield return null;
         }
         rockMovement.isCrushed = false;
