@@ -101,7 +101,7 @@ public class TerrainDeformer : MonoBehaviour
         {
             DeformTerrain(hit.point, inds);
             minerQuantity -= 0.9f;
-            Debug.Log((int)minerQuantity);
+            //Debug.Log((int)minerQuantity);
         }
     }
 

@@ -23,26 +23,29 @@ public class CameraFollow : MonoBehaviour
     private IEnumerator CameraShake(int xMagnitude, int yMagnitude)
     {
         const float cameraXRotation = 90f;
+        const float cameraYRotation = 0f;
         bool isShaking = true;
         int shakeCount = 0;
+        int shakeTinme = 10;
         while (isShaking)
         {
-            //float currentXRotation = Camera.main.transform.rotation.x;
-            float currentYRotation = Camera.main.transform.rotation.y;
             float xShakeMagnitude = Random.Range(-xMagnitude, xMagnitude);
             float yShakeMagnitude = Random.Range(-yMagnitude, yMagnitude);
+            float shakedXRoation = cameraXRotation + xShakeMagnitude;
+            float shakedYRotation = cameraYRotation + yShakeMagnitude;
             Quaternion cameraRotation = Camera.main.transform.rotation;
-            Quaternion shakedRotations = Quaternion.Euler(xShakeMagnitude + cameraXRotation, currentYRotation + yShakeMagnitude, cameraRotation.z);
+            Quaternion shakedRotations = Quaternion.Euler(shakedXRoation, shakedYRotation, cameraRotation.z);
             transform.rotation = shakedRotations;
             shakeCount++;
-            if (shakeCount > 20) { isShaking = false; }
+            if (shakeCount > shakeTinme) { isShaking = false; }
             yield return null;
         }
         rockMovement.isCrushed = false;
+        StopCoroutine(CameraShake(16, 4));
     }
 
     private void ProcessCoroutines()
     {
-        StartCoroutine(CameraShake(2, 2));
+        StartCoroutine(CameraShake(3, 3));
     }
 }

@@ -50,16 +50,14 @@ public class SkeletonController : MonoBehaviour
     [Obsolete]
     private void DestroyObstacleAfterFlashObstacle(Collision collision)
     {
-        float animDuration = rockMovement.DestroyObstacleAnimation(collision, 0.7f, 0.7f, 0.7f);
+        float animDuration = rockMovement.DestroyObstacleAnimation(collision, 0.5f, 0.5f, 0.5f);
         float destroyDuration = animDuration - (animDuration / 1.20f);
-        flashObstacleEdgeValue = destroyDuration;
         Destroy(collision.gameObject, destroyDuration); // destroy duration has to be greater than flashObstacle complition
     }
 
-    float flashObstacleEdgeValue;
     public IEnumerator FlashObstacle(Collision collision, Material flashMat, float flashTime)
     {
-        if (collision.gameObject.GetComponent<MeshRenderer>() != null)
+        if (collision.gameObject.GetComponent<MeshRenderer>() != null && collision.gameObject.tag == "Obstacle")
         {
             int counter = 0;
             int switcher = 1;
@@ -89,12 +87,13 @@ public class SkeletonController : MonoBehaviour
                 }
                 counter++;
                 switcher *= -1;
-                if (counter > 7) { isFlashing = false; } /* this value has to be below destroyDuration otherwise it will try to change the non-existing meshRenderer */
-                
+                if (counter > 7) 
+                { 
+                    isFlashing = false; /* this value has to be below destroyDuration otherwise it will try to change the non-existing meshRenderer */
+                    StopCoroutine(FlashObstacle(collision, flashMat, 0.08f));
+                } 
                 yield return new WaitForSeconds(flashTime);
             }
-            Debug.Log((7 * flashTime) + " " + flashObstacleEdgeValue); // todo will make a system 
-            StopAllCoroutines(); // warning, stops all the coroutines in script
         }
     }
 
