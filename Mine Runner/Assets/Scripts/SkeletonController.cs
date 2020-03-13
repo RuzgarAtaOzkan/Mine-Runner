@@ -47,14 +47,6 @@ public class SkeletonController : MonoBehaviour
     }
 
     [Obsolete]
-    private void DestroyObstacleAfterFlashObstacle(Collision collision, float destroyTime)
-    {
-        float animDuration = rockMovement.DestroyObstacleAnimation(collision, 0.5f, 0.5f, 0.5f);
-        float destroyDuration = animDuration - (animDuration / destroyTime);
-        Destroy(collision.gameObject, destroyDuration); // destroy duration has to be greater than flashObstacle complition
-    }
-
-    [Obsolete]
     public IEnumerator FlashObstacle(Collision collision, Material flashMat, float flashRepeatTime)
     {
         if (collision.gameObject.GetComponent<MeshRenderer>() != null && collision.gameObject.tag == "Obstacle" && collision.gameObject.tag != "Terrain")
@@ -73,23 +65,37 @@ public class SkeletonController : MonoBehaviour
                 switch (switcher)
                 {
                     case 1:
-                        collision.gameObject.GetComponent<MeshRenderer>().materials = savedMaterials;
+                        if (collision.gameObject.GetComponent<MeshRenderer>() != null)
+                        {
+                            collision.gameObject.GetComponent<MeshRenderer>().materials = savedMaterials;
+                        }
                         break;
                     case -1:
-                        collision.gameObject.GetComponent<MeshRenderer>().materials = flashMaterialsToPlace;
+                        if (collision.gameObject.GetComponent<MeshRenderer>() != null)
+                        {
+                            collision.gameObject.GetComponent<MeshRenderer>().materials = flashMaterialsToPlace;
+                        }
                         break;
                 }
                 counter++;
                 switcher *= -1;
                 if (counter > 7) 
                 { 
-                    isFlashing = false; /* this value has to be below destroyDuration otherwise it will try to change the non-existing meshRenderer */
+                    isFlashing = false;
                     StopCoroutine(FlashObstacle(collision, flashMat, 0.08f));
                     DestroyObstacleAfterFlashObstacle(collision, 0.01f);
                 } 
                 yield return new WaitForSeconds(flashRepeatTime);
             }
         }
+    }
+
+    [Obsolete]
+    private void DestroyObstacleAfterFlashObstacle(Collision collision, float destroyTime)
+    {
+        float animDuration = rockMovement.DestroyObstacleAnimation(collision, 0.5f, 0.5f, 0.5f);
+        float destroyDuration = animDuration - (animDuration / destroyTime);
+        Destroy(collision.gameObject, destroyDuration);
     }
 
     private void KeepTrackOfObjectsWithTag(string tagName)
