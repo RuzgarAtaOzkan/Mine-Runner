@@ -12,6 +12,7 @@ public class SkeletonController : MonoBehaviour
     float speed = 9f;
 
     [SerializeField] Material flashMat;
+    [SerializeField] GameObject minerQuantityFX;
 
     void Start()
     {
@@ -26,6 +27,15 @@ public class SkeletonController : MonoBehaviour
         FreezeRotations();
         MovePosition(speed);
         KeepTrackOfObjectsWithTag("Obstacle");
+        GameObject[] minerQuantitys = GameObject.FindGameObjectsWithTag("MinerQuantityFX");
+        foreach (GameObject minerQuantity in minerQuantitys)
+        {
+            if (minerQuantity != null)
+            {
+                minerQuantity.transform.position = Vector3.Lerp(minerQuantity.transform.position, new Vector3(25f, 25f, 25f), Time.deltaTime * 0.2f);
+                Debug.Log("Lerping");
+            }
+        }
     }
 
     [Obsolete]
@@ -36,6 +46,7 @@ public class SkeletonController : MonoBehaviour
             animator.SetBool("isDigging", true);
             StartCoroutine(FlashObstacle(collision, flashMat, 0.05f));
             DestroyObstacleAfterFlashObstacle(collision, 1.08f);
+            Instantiate(minerQuantityFX, collision.gameObject.transform.position, Quaternion.identity);
         }
     }
 
@@ -97,7 +108,7 @@ public class SkeletonController : MonoBehaviour
                 if (counter > 7) 
                 {
                     isFlashing = false;
-                    
+
                 } 
                 yield return new WaitForSeconds(flashRepeatTime);
             }

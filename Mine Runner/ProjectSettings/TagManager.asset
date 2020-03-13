@@ -7,7 +7,6 @@ TagManager:
   - SandDeformParticle
   - Obstacle
   - Terrain
-  - Pickaxe
   layers:
   - Default
   - TransparentFX
