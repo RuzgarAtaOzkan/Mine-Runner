@@ -118,11 +118,11 @@ public class SkeletonController : MonoBehaviour
     {
         float animDuration = rockMovement.DestroyObstacleAnimation(collision, 0.5f, 0.5f, 0.5f);
         float destroyDuration = animDuration - (animDuration / destroyTime);
-        KeepTrackOfMinerQuantitiesLength(collision, 3);
+        KeepTrackOfMinerQuantitiesLength(collision, 2); // second parameter determines to destroy all the mine quantites in scene
         Destroy(collision.gameObject, destroyDuration);
     }
 
-    private void KeepTrackOfMinerQuantitiesLength(Collision collision, float numberOfMinerQuantity)
+    private void KeepTrackOfMinerQuantitiesLength(Collision collision, float numberOfMinerQuantity) // destroy mine quantities if they passed the edge value 
     {
         Instantiate(minerQuantityFX, collision.gameObject.transform.position, Quaternion.identity);
         GameObject[] minerQuantities = GameObject.FindGameObjectsWithTag("MinerQuantityFX");
@@ -130,7 +130,7 @@ public class SkeletonController : MonoBehaviour
         {
             for (int i = 0; i < minerQuantities.Length; i++)
             {
-                Destroy(minerQuantities[++i]);
+                Destroy(minerQuantities[i++]);
             }
         }
     }
