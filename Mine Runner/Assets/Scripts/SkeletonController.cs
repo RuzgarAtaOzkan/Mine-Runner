@@ -9,9 +9,10 @@ public class SkeletonController : MonoBehaviour
     Animator animator;
     RockMovement rockMovement;
     int obstaclesLength;
-    float speed = 7f;
+    float speed = 9f;
 
     [SerializeField] Material flashMat;
+    [SerializeField] Transform cubeToLerp;
 
     void Start()
     {
@@ -34,7 +35,8 @@ public class SkeletonController : MonoBehaviour
         if (collision.gameObject.tag == "Obstacle" && collision.gameObject.tag != "Terrain")
         {
             animator.SetBool("isDigging", true);
-            StartCoroutine(FlashObstacle(collision, flashMat, 0.08f));
+            StartCoroutine(FlashObstacle(collision, flashMat, 0.05f));
+            DestroyObstacleAfterFlashObstacle(collision, 1.08f);
         }
     }
 
@@ -65,28 +67,42 @@ public class SkeletonController : MonoBehaviour
                 switch (switcher)
                 {
                     case 1:
-                        if (collision.gameObject.GetComponent<MeshRenderer>() != null)
+                        try
                         {
-                            collision.gameObject.GetComponent<MeshRenderer>().materials = savedMaterials;
+                            if (collision.gameObject.GetComponent<MeshRenderer>() != null && collision.gameObject.tag == "Obstacle")
+                            {
+                                collision.gameObject.GetComponent<MeshRenderer>().materials = savedMaterials;
+                            }
+                        }
+                        catch
+                        {
+                            Debug.Log("object has been destroyed");
                         }
                         break;
                     case -1:
-                        if (collision.gameObject.GetComponent<MeshRenderer>() != null)
+                        try
                         {
-                            collision.gameObject.GetComponent<MeshRenderer>().materials = flashMaterialsToPlace;
+                            if (collision.gameObject.GetComponent<MeshRenderer>() != null && collision.gameObject.tag == "Obstacle")
+                            {
+                                collision.gameObject.GetComponent<MeshRenderer>().materials = flashMaterialsToPlace;
+                            }
+                        }
+                        catch
+                        {
+                            Debug.Log("object has been destroyed");
                         }
                         break;
                 }
                 counter++;
                 switcher *= -1;
                 if (counter > 7) 
-                { 
+                {
                     isFlashing = false;
-                    StopCoroutine(FlashObstacle(collision, flashMat, 0.08f));
-                    DestroyObstacleAfterFlashObstacle(collision, 0.01f);
+                    
                 } 
                 yield return new WaitForSeconds(flashRepeatTime);
             }
+            StopCoroutine(FlashObstacle(collision, flashMat, 0.08f));
         }
     }
 

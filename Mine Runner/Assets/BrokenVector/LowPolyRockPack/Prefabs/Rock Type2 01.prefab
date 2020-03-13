@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 489978}
   - component: {fileID: 3313284}
   - component: {fileID: 2378784}
-  - component: {fileID: 861409736}
+  - component: {fileID: -4082242816256630287}
+  - component: {fileID: -1048184182200291129}
   m_Layer: 0
   m_Name: Rock Type2 01
   m_TagString: Obstacle
@@ -80,7 +81,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &861409736
+--- !u!64 &-4082242816256630287
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,3 +95,16 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 6425f5e52f03e4340a3afa5f62f57a0d, type: 3}
+--- !u!65 &-1048184182200291129
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108756}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.689558, y: 1.8855693, z: 2.6228259}
+  m_Center: {x: -0.062401116, y: 0.64533293, z: 0.23742115}

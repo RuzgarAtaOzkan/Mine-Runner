@@ -46,10 +46,11 @@ public class TerrainDeformer : MonoBehaviour
     // todo my part of script
     RockMovement rockMovement;
     GameObject ground;
-    [SerializeField] Transform rock;
+    [SerializeField] Transform mineCart;
     [SerializeField] ParticleSystem sandDeformParticles;
     float minerQuantity = 300f;
 
+    [System.Obsolete]
     void Start()
     {
         terr = this.GetComponent<Terrain>();
@@ -85,7 +86,7 @@ public class TerrainDeformer : MonoBehaviour
         DeformTerrainByInput();
         if (rockMovement.shouldDeform) // deform terrain on rock if its velocity is below 0.5, beacuse it means that the rock is probably stuck
         { 
-            DeformTerrain(rock.position, inds + 2f);
+            DeformTerrain(mineCart.position, inds + 10f);
         }
     }
 
@@ -139,10 +140,11 @@ public class TerrainDeformer : MonoBehaviour
         }
     }
 
+    [System.Obsolete]
     private void ProcessCoroutines()
     {
         StartCoroutine(ProcessSandParticles(0.2f));
-        //StartCoroutine(SandParticlesGarbageCollector(4f));
+        StartCoroutine(SandParticlesGarbageCollector(8f));
     }
     // ==============================================
 

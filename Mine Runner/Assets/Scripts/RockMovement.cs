@@ -7,12 +7,11 @@ using UnityEngine.AI;
 public class RockMovement : MonoBehaviour
 {
     Rigidbody rb;
-    [SerializeField] Transform target;
     NavMeshAgent agent;
-    
     public bool shouldDeform = false;
     public bool isCrushed = false;
 
+    [SerializeField] Transform target;
     [SerializeField] ParticleSystem rockDestroyFX;
 
     [Obsolete]
@@ -25,7 +24,6 @@ public class RockMovement : MonoBehaviour
 
     void Update()
     {
-        //MoveRockAndRotate();
         agent.SetDestination(target.position);
     }
 
@@ -58,24 +56,10 @@ public class RockMovement : MonoBehaviour
     }
 
 
-    private void MoveRockAndRotate()
+    private void RotateMinecart()
     {
-        float rotationSpeed = -3f;
-        transform.Rotate(Vector3.forward * rotationSpeed, Space.Self);
-        rb.AddForce(Vector3.right * 400f * Time.deltaTime);
-        if (rb.velocity.x > 4.5f) { rb.velocity = new Vector3(4.5f, rb.velocity.y, rb.velocity.z); }
-    }
-
-    private IEnumerator AddCrossForce()
-    {
-        yield return new WaitForSeconds(3f);
-        float forceToAdd = -170f;
-        while (true)
-        {
-            rb.AddForce(Vector3.forward * forceToAdd);
-            forceToAdd *= -1f;
-            yield return new WaitForSeconds(4f);
-        }
+        Quaternion defaultRotations = Quaternion.Euler(-90f, 0f, 0f);
+        transform.rotation = defaultRotations;
     }
 
     // check if the velocity is below 0.5 if it is deform terrain on rock by setting shouldDeform true and check agan at every so

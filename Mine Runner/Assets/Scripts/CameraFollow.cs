@@ -46,6 +46,6 @@ public class CameraFollow : MonoBehaviour
 
     private void ProcessCoroutines()
     {
-        StartCoroutine(CameraShake(3, 3));
+        StartCoroutine(CameraShake(5, 5));
     }
 }
