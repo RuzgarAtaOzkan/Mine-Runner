@@ -9,7 +9,7 @@ public class SkeletonController : MonoBehaviour
     Animator animator;
     RockMovement rockMovement;
     int obstaclesLength;
-    float speed = 4.8f;
+    float speed = 7f;
 
     [SerializeField] Material flashMat;
 
@@ -24,7 +24,7 @@ public class SkeletonController : MonoBehaviour
     void Update()
     {
         FreezeRotations();
-        MovePosition();
+        MovePosition(speed);
         KeepTrackOfObjectsWithTag("Obstacle");
     }
 
@@ -35,7 +35,6 @@ public class SkeletonController : MonoBehaviour
         {
             animator.SetBool("isDigging", true);
             StartCoroutine(FlashObstacle(collision, flashMat, 0.08f));
-            DestroyObstacleAfterFlashObstacle(collision);
         }
     }
 
@@ -48,16 +47,17 @@ public class SkeletonController : MonoBehaviour
     }
 
     [Obsolete]
-    private void DestroyObstacleAfterFlashObstacle(Collision collision)
+    private void DestroyObstacleAfterFlashObstacle(Collision collision, float destroyTime)
     {
         float animDuration = rockMovement.DestroyObstacleAnimation(collision, 0.5f, 0.5f, 0.5f);
-        float destroyDuration = animDuration - (animDuration / 1.20f);
+        float destroyDuration = animDuration - (animDuration / destroyTime);
         Destroy(collision.gameObject, destroyDuration); // destroy duration has to be greater than flashObstacle complition
     }
 
-    public IEnumerator FlashObstacle(Collision collision, Material flashMat, float flashTime)
+    [Obsolete]
+    public IEnumerator FlashObstacle(Collision collision, Material flashMat, float flashRepeatTime)
     {
-        if (collision.gameObject.GetComponent<MeshRenderer>() != null && collision.gameObject.tag == "Obstacle")
+        if (collision.gameObject.GetComponent<MeshRenderer>() != null && collision.gameObject.tag == "Obstacle" && collision.gameObject.tag != "Terrain")
         {
             int counter = 0;
             int switcher = 1;
@@ -73,16 +73,10 @@ public class SkeletonController : MonoBehaviour
                 switch (switcher)
                 {
                     case 1:
-                        if (collision.gameObject.tag != "Terrain")
-                        {
                         collision.gameObject.GetComponent<MeshRenderer>().materials = savedMaterials;
-                        }
                         break;
                     case -1:
-                        if (collision.gameObject.tag != "Terrain")
-                        {
-                            collision.gameObject.GetComponent<MeshRenderer>().materials = flashMaterialsToPlace;
-                        }
+                        collision.gameObject.GetComponent<MeshRenderer>().materials = flashMaterialsToPlace;
                         break;
                 }
                 counter++;
@@ -91,8 +85,9 @@ public class SkeletonController : MonoBehaviour
                 { 
                     isFlashing = false; /* this value has to be below destroyDuration otherwise it will try to change the non-existing meshRenderer */
                     StopCoroutine(FlashObstacle(collision, flashMat, 0.08f));
+                    DestroyObstacleAfterFlashObstacle(collision, 0.01f);
                 } 
-                yield return new WaitForSeconds(flashTime);
+                yield return new WaitForSeconds(flashRepeatTime);
             }
         }
     }
@@ -107,7 +102,7 @@ public class SkeletonController : MonoBehaviour
         }
     } 
 
-    private void MovePosition()
+    private void MovePosition(float speed)
     {
         rb.MovePosition(rb.position + Vector3.right * speed * Time.deltaTime);
         rb.AddForce(Vector3.forward * -270f);

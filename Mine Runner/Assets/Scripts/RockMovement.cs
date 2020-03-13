@@ -25,7 +25,7 @@ public class RockMovement : MonoBehaviour
 
     void Update()
     {
-        MoveRockAndRotate();
+        //MoveRockAndRotate();
         agent.SetDestination(target.position);
     }
 
