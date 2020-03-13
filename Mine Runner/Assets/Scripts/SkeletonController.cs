@@ -33,7 +33,6 @@ public class SkeletonController : MonoBehaviour
             if (minerQuantity != null)
             {
                 minerQuantity.transform.position = Vector3.Lerp(minerQuantity.transform.position, new Vector3(25f, 25f, 25f), Time.deltaTime * 0.2f);
-                Debug.Log("Lerping");
             }
         }
     }
@@ -46,7 +45,6 @@ public class SkeletonController : MonoBehaviour
             animator.SetBool("isDigging", true);
             StartCoroutine(FlashObstacle(collision, flashMat, 0.05f));
             DestroyObstacleAfterFlashObstacle(collision, 1.08f);
-            Instantiate(minerQuantityFX, collision.gameObject.transform.position, Quaternion.identity);
         }
     }
 
@@ -108,7 +106,6 @@ public class SkeletonController : MonoBehaviour
                 if (counter > 7) 
                 {
                     isFlashing = false;
-
                 } 
                 yield return new WaitForSeconds(flashRepeatTime);
             }
@@ -121,7 +118,21 @@ public class SkeletonController : MonoBehaviour
     {
         float animDuration = rockMovement.DestroyObstacleAnimation(collision, 0.5f, 0.5f, 0.5f);
         float destroyDuration = animDuration - (animDuration / destroyTime);
+        KeepTrackOfMinerQuantitiesLength(collision, 3);
         Destroy(collision.gameObject, destroyDuration);
+    }
+
+    private void KeepTrackOfMinerQuantitiesLength(Collision collision, float numberOfMinerQuantity)
+    {
+        Instantiate(minerQuantityFX, collision.gameObject.transform.position, Quaternion.identity);
+        GameObject[] minerQuantities = GameObject.FindGameObjectsWithTag("MinerQuantityFX");
+        if (minerQuantities.Length > numberOfMinerQuantity)
+        {
+            for (int i = 0; i < minerQuantities.Length; i++)
+            {
+                Destroy(minerQuantities[++i]);
+            }
+        }
     }
 
     private void KeepTrackOfObjectsWithTag(string tagName)
