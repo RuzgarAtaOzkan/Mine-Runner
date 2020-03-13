@@ -12,7 +12,6 @@ public class SkeletonController : MonoBehaviour
     float speed = 9f;
 
     [SerializeField] Material flashMat;
-    [SerializeField] Transform cubeToLerp;
 
     void Start()
     {
