@@ -27,14 +27,7 @@ public class SkeletonController : MonoBehaviour
         FreezeRotations();
         MovePosition(speed);
         KeepTrackOfObjectsWithTag("Obstacle");
-        GameObject[] minerQuantitys = GameObject.FindGameObjectsWithTag("MinerQuantityFX");
-        foreach (GameObject minerQuantity in minerQuantitys)
-        {
-            if (minerQuantity != null)
-            {
-                minerQuantity.transform.position = Vector3.Lerp(minerQuantity.transform.position, new Vector3(25f, 25f, 25f), Time.deltaTime * 0.2f);
-            }
-        }
+        LerpMinerQuantities();
     }
 
     [Obsolete]
@@ -120,6 +113,18 @@ public class SkeletonController : MonoBehaviour
         float destroyDuration = animDuration - (animDuration / destroyTime);
         KeepTrackOfMinerQuantitiesLength(collision, 2); // second parameter determines to destroy all the mine quantites in scene
         Destroy(collision.gameObject, destroyDuration);
+    }
+
+    private static void LerpMinerQuantities() // lerp all the quantity FXs to specific position
+    {
+        GameObject[] minerQuantitys = GameObject.FindGameObjectsWithTag("MinerQuantityFX");
+        foreach (GameObject minerQuantity in minerQuantitys)
+        {
+            if (minerQuantity != null)
+            {
+                minerQuantity.transform.position = Vector3.Lerp(minerQuantity.transform.position, new Vector3(25f, 25f, 25f), Time.deltaTime * 0.2f);
+            }
+        }
     }
 
     private void KeepTrackOfMinerQuantitiesLength(Collision collision, float numberOfMinerQuantity) // destroy mine quantities if they passed the edge value 
