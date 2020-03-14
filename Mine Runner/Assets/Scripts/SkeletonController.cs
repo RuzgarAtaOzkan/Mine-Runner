@@ -28,7 +28,7 @@ public class SkeletonController : MonoBehaviour
         FreezeRotations();
         MovePosition(speed);
         KeepTrackOfObjectsWithTag("Obstacle");
-        LerpMinerQuantities(minerQuantitiyLerpTarget.position);
+        LerpMinerQuantities(minerQuantitiyLerpTarget.position, 4f);
     }
 
     [Obsolete]
@@ -116,7 +116,7 @@ public class SkeletonController : MonoBehaviour
         Destroy(collision.gameObject, destroyDuration);
     }
 
-    private static void LerpMinerQuantities(Vector3 target) // lerp all the quantity FXs to specific position
+    private static void LerpMinerQuantities(Vector3 target, float distanceTrigger) // lerp all the quantity FXs to specific position, trigger if the distance below the specific value
     {
         GameObject[] minerQuantities = GameObject.FindGameObjectsWithTag("MinerQuantityFX");
         foreach (GameObject minerQuantity in minerQuantities)
@@ -124,6 +124,11 @@ public class SkeletonController : MonoBehaviour
             if (minerQuantity != null)
             {
                 minerQuantity.transform.position = Vector3.Lerp(minerQuantity.transform.position, target, Time.deltaTime * 2f);
+                float distanceBetweenMinerQuantityAndTarget = Vector3.Distance(minerQuantity.transform.position, target);
+                if (distanceBetweenMinerQuantityAndTarget < distanceTrigger)
+                {
+                    Debug.Log("minerQuantities has reached to target");
+                }
                 Destroy(minerQuantity, 2f);
             }
         }

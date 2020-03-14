@@ -48,7 +48,7 @@ public class TerrainDeformer : MonoBehaviour
     GameObject ground;
     [SerializeField] Transform mineCart;
     [SerializeField] ParticleSystem sandDeformParticles;
-    float minerQuantity = 300f;
+    float minerQuantity = 60f;
 
     [System.Obsolete]
     void Start()
@@ -97,12 +97,9 @@ public class TerrainDeformer : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(mousePos);
-        
         if (Physics.Raycast(ray, out hit))
         {
             DeformTerrain(hit.point, inds);
-            minerQuantity -= 0.9f;
-            //Debug.Log((int)minerQuantity);
         }
     }
 
