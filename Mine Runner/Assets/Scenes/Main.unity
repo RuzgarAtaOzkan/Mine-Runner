@@ -481,6 +481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shouldDeform: 0
   isCrushed: 0
+  flashMat: {fileID: 2100000, guid: 58e7b525f0f02624797a08e9e8b2f612, type: 2}
   target: {fileID: 1182758364}
   rockDestroyFX: {fileID: 198537984209914932, guid: f684620ed328a6643b04bff89c1a17bd,
     type: 3}

@@ -39,7 +39,7 @@ public class SkeletonController : MonoBehaviour
         if (collision.gameObject.tag == "Obstacle" && collision.gameObject.tag != "Terrain")
         {
             animator.SetBool("isDigging", true);
-            StartCoroutine(FlashObstacle(collision, flashMat, 0.05f)); // third parameter is determine the sequence time between flashes
+            StartCoroutine(FlashObstacle(collision, "Obstacle", flashMat, 0.05f)); // third parameter is determine the sequence time between flashes
             DestroyObstacleAfterFlashObstacle(collision, 1.1f);
         }
     }
@@ -53,60 +53,106 @@ public class SkeletonController : MonoBehaviour
     }
 
     [Obsolete]
-    public IEnumerator FlashObstacle(Collision collision, Material flashMat, float flashRepeatTime)
+    public IEnumerator FlashObstacle(Collision collision, string objectTag, Material flashMat, float flashRepeatTime)
     {
-        if (collision.gameObject.GetComponent<MeshRenderer>() != null && collision.gameObject.tag == "Obstacle" && collision.gameObject.tag != "Terrain")
+        if (objectTag == "Player")
         {
-            int counter = 0;
-            int switcher = 1;
-            bool isFlashing = true;
-            Material[] savedMaterials = collision.gameObject.GetComponent<MeshRenderer>().materials;
-            while (isFlashing)
+            if (collision.gameObject.transform.GetComponentInChildren<SkinnedMeshRenderer>() != null && collision.gameObject.tag == objectTag && collision.gameObject.tag != "Terrain")
             {
-                Material[] flashMaterialsToPlace = new Material[savedMaterials.Length];
-                for (int i = 0; i < flashMaterialsToPlace.Length; i++)
+                int counter = 0;
+                int switcher = 1;
+                bool isFlashing = true;
+                Material[] savedMaterials = collision.gameObject.transform.GetComponentInChildren<SkinnedMeshRenderer>().materials;
+                while (isFlashing)
                 {
-                    flashMaterialsToPlace[i] = flashMat;
-                }
-                switch (switcher)
-                {
-                    case 1:
-                        try
-                        {
-                            if (collision.gameObject.GetComponent<MeshRenderer>() != null && collision.gameObject.tag == "Obstacle")
+                    Material[] flashMaterialsToPlace = new Material[savedMaterials.Length];
+                    for (int i = 0; i < flashMaterialsToPlace.Length; i++)
+                    {
+                        flashMaterialsToPlace[i] = flashMat;
+                    }
+                    switch (switcher)
+                    {
+                        case 1:
+                            try
                             {
-                                collision.gameObject.GetComponent<MeshRenderer>().materials = savedMaterials;
+                                if (collision.gameObject.transform.GetComponentInChildren<SkinnedMeshRenderer>() != null && collision.gameObject.tag == objectTag)
+                                {
+                                    collision.gameObject.transform.GetComponentInChildren<SkinnedMeshRenderer>().materials = savedMaterials;
+                                }
                             }
-                        }
-                        catch
-                        {
-                            Debug.Log("object has been destroyed");
-                        }
-                        break;
-                    case -1:
-                        try
-                        {
-                            if (collision.gameObject.GetComponent<MeshRenderer>() != null && collision.gameObject.tag == "Obstacle")
+                            catch { Debug.Log("object has been destroyed"); }
+                            break;
+                        case -1:
+                            try
                             {
-                                collision.gameObject.GetComponent<MeshRenderer>().materials = flashMaterialsToPlace;
+                                if (collision.gameObject.transform.GetComponentInChildren<SkinnedMeshRenderer>() != null && collision.gameObject.tag == objectTag)
+                                {
+                                    collision.gameObject.transform.GetComponentInChildren<SkinnedMeshRenderer>().materials = flashMaterialsToPlace;
+                                }
                             }
-                        }
-                        catch
-                        {
-                            Debug.Log("object has been destroyed");
-                        }
-                        break;
+                            catch { Debug.Log("object has been destroyed"); }
+                            break;
+                    }
+                    counter++;
+                    switcher *= -1;
+                    if (counter > 7)
+                    {
+                        isFlashing = false;
+                    }
+                    yield return new WaitForSeconds(flashRepeatTime);
                 }
-                counter++;
-                switcher *= -1;
-                if (counter > 7) 
-                {
-                    isFlashing = false;
-                } 
-                yield return new WaitForSeconds(flashRepeatTime);
+                StopCoroutine(FlashObstacle(collision, "Obstacle", flashMat, 0.08f));
             }
-            StopCoroutine(FlashObstacle(collision, flashMat, 0.08f));
-        }
+        } // reach skinned mesh renderer in every time in child if parameter objectTag is Player 
+        else if (objectTag == "Obstacle")
+        {
+            if (collision.gameObject.GetComponent<MeshRenderer>() != null && collision.gameObject.tag == objectTag && collision.gameObject.tag != "Terrain")
+            {
+                int counter = 0;
+                int switcher = 1;
+                bool isFlashing = true;
+                Material[] savedMaterials = collision.gameObject.GetComponent<MeshRenderer>().materials;
+                while (isFlashing)
+                {
+                    Material[] flashMaterialsToPlace = new Material[savedMaterials.Length];
+                    for (int i = 0; i < flashMaterialsToPlace.Length; i++)
+                    {
+                        flashMaterialsToPlace[i] = flashMat;
+                    }
+                    switch (switcher)
+                    {
+                        case 1:
+                            try
+                            {
+                                if (collision.gameObject.GetComponent<MeshRenderer>() != null && collision.gameObject.tag == objectTag)
+                                {
+                                    collision.gameObject.GetComponent<MeshRenderer>().materials = savedMaterials;
+                                }
+                            }
+                            catch { Debug.Log("object has been destroyed"); }
+                            break;
+                        case -1:
+                            try
+                            {
+                                if (collision.gameObject.GetComponent<MeshRenderer>() != null && collision.gameObject.tag == objectTag)
+                                {
+                                    collision.gameObject.GetComponent<MeshRenderer>().materials = flashMaterialsToPlace;
+                                }
+                            }
+                            catch { Debug.Log("object has been destroyed"); }
+                            break;
+                    }
+                    counter++;
+                    switcher *= -1;
+                    if (counter > 7)
+                    {
+                        isFlashing = false;
+                    }
+                    yield return new WaitForSeconds(flashRepeatTime);
+                }
+                StopCoroutine(FlashObstacle(collision, "Obstacle", flashMat, 0.08f));
+            }
+        } // reach normal mesh renderer in every time if parameter objectTag is Obstacle, becuase obstacle
     }
 
     [Obsolete]
@@ -146,7 +192,7 @@ public class SkeletonController : MonoBehaviour
         {
             for (int i = 0; i < minerQuantities.Length; i++)
             {
-                Destroy(minerQuantities[++i]);
+                Destroy(minerQuantities[i++]);
             }
         }
     }

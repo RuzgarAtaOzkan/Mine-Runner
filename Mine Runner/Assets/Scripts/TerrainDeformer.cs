@@ -95,29 +95,18 @@ public class TerrainDeformer : MonoBehaviour
     // todo replace the mouse position with touch position, deform terrain on mouse position for now
     private void DeformTerrainByInput()
     {
-        touch = Input.GetTouch(0);
-        Vector3 touchPos = touch.position;
-        Vector3 mousePos = Input.mousePosition;
-        RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(touchPos);
-        if (Physics.Raycast(ray, out hit))
+        if (Input.touchCount > 0)
         {
-            DeformTerrain(hit.point, inds);
-            DecreaseMinerQuantity(decreaseValue);
-
-            switch (touch.phase)
+            try { touch = Input.GetTouch(0); }
+            catch { Debug.Log("Touch index you try to get is outside of the bounds of the array"); }
+            Vector3 touchPos = touch.position;
+            Vector3 mousePos = Input.mousePosition;
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(touchPos);
+            if (Physics.Raycast(ray, out hit))
             {
-                case TouchPhase.Began:
-                    Debug.Log("touch has begun");
-                    break;
-
-                case TouchPhase.Moved:
-                    Debug.Log("touch is moving");
-                    break;
-
-                case TouchPhase.Ended:
-                    Debug.Log("touch has ended");
-                    break;
+                DeformTerrain(hit.point, inds);
+                DecreaseMinerQuantity(decreaseValue);
             }
         }
     }
@@ -126,12 +115,14 @@ public class TerrainDeformer : MonoBehaviour
     {
         minerQuantity -= pointToDecrease;
         int convertedMinerQuantity = (int)minerQuantity;
+        Debug.Log(convertedMinerQuantity);
     }
 
     public void IncreaseMinerQuantity(int pointToAdd)
     {
         int addedValue = (int)minerQuantity + pointToAdd;
         minerQuantity = Mathf.Lerp(minerQuantity, addedValue, Time.deltaTime);
+        Debug.Log(minerQuantity);
     }
 
     // instantiate sandDeform particles in every so if hit is equals to ground
@@ -223,7 +214,8 @@ public class TerrainDeformer : MonoBehaviour
             }
         }
         // set the new height
-        terr.terrainData.SetHeights(heightMapStartPosX, heightMapStartPosZ, heights);
+        try { terr.terrainData.SetHeights(heightMapStartPosX, heightMapStartPosZ, heights); }
+        catch { Debug.Log("index is outside of the bounds"); }
     }
 
     protected void TextureDeformation(Vector3 pos, float craterSizeInMeters)

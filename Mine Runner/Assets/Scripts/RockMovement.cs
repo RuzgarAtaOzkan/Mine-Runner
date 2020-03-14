@@ -8,9 +8,11 @@ public class RockMovement : MonoBehaviour
 {
     Rigidbody rb;
     NavMeshAgent agent;
+    SkeletonController skeletonController;
     public bool shouldDeform = false;
     public bool isCrushed = false;
 
+    [SerializeField] Material flashMat;
     [SerializeField] Transform target;
     [SerializeField] ParticleSystem rockDestroyFX;
 
@@ -19,6 +21,7 @@ public class RockMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
+        skeletonController = FindObjectOfType<SkeletonController>();
         ProcessCoroutines();
     }
 
@@ -35,9 +38,10 @@ public class RockMovement : MonoBehaviour
             DestroyObstacleAnimation(collision, 0.8f, 0.8f, 0.8f);
             Destroy(collision.gameObject);
         }
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" && collision.gameObject.tag != "Terrain")
         {
             isCrushed = true;
+            StartCoroutine(skeletonController.FlashObstacle(collision, "Player", flashMat, 0.2f));
             Handheld.Vibrate();
         }
     }
