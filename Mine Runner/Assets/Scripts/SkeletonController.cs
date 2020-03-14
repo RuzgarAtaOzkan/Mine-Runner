@@ -40,7 +40,7 @@ public class SkeletonController : MonoBehaviour
         {
             animator.SetBool("isDigging", true);
             StartCoroutine(FlashObstacle(collision, flashMat, 0.05f));
-            DestroyObstacleAfterFlashObstacle(collision, 1.08f);
+            DestroyObstacleAfterFlashObstacle(collision, 1.1f);
         }
     }
 
@@ -119,7 +119,7 @@ public class SkeletonController : MonoBehaviour
     }
 
     // move minerquantity paricles to specific point
-    private static void LerpMinerQuantities(Vector3 target, float distanceTrigger) // lerp all the quantity FXs to specific position, trigger if the distance below the specific value
+    private void LerpMinerQuantities(Vector3 target, float distanceTrigger) // lerp all the quantity FXs to specific position, trigger if the distance below the specific value
     {
         GameObject[] minerQuantities = GameObject.FindGameObjectsWithTag("MinerQuantityFX");
         foreach (GameObject minerQuantity in minerQuantities)
@@ -130,7 +130,8 @@ public class SkeletonController : MonoBehaviour
                 float distanceBetweenMinerQuantityAndTarget = Vector3.Distance(minerQuantity.transform.position, target);
                 if (distanceBetweenMinerQuantityAndTarget < distanceTrigger)
                 {
-                    Debug.Log("minerQuantities has reached to target");
+                    Debug.Log("increased");
+                    terrainDeformer.IncreaseMinerQuantity(60);
                 }
                 Destroy(minerQuantity, 2f);
             }

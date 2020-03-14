@@ -6,7 +6,7 @@ public class CameraFollow : MonoBehaviour
 {
     Transform targetSkeleton;
     RockMovement rockMovement;
-    [SerializeField] Vector3 offset = new Vector3(0f, 15f, 5f);
+    [SerializeField] Vector3 offset = new Vector3(2f, 15f, 5f);
     
     void Start()
     {
@@ -16,7 +16,7 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
-        transform.position = targetSkeleton.transform.position + offset;
+        transform.position = Vector3.Lerp(transform.position, targetSkeleton.transform.position + offset, Time.deltaTime);
         if (rockMovement.isCrushed) { ProcessCoroutines(); }
     }
 
@@ -29,12 +29,18 @@ public class CameraFollow : MonoBehaviour
         int shakeTime = 20;
         while (isShaking)
         {
+            Quaternion cameraRotation = Camera.main.transform.rotation;
             float xShakeMagnitude = Random.Range(-xMagnitude, xMagnitude);
             float yShakeMagnitude = Random.Range(-yMagnitude, yMagnitude);
+
             float shakedXRoation = cameraXRotation + xShakeMagnitude;
             float shakedYRotation = cameraYRotation + yShakeMagnitude;
-            Quaternion cameraRotation = Camera.main.transform.rotation;
-            Quaternion shakedRotations = Quaternion.Euler(shakedXRoation, shakedYRotation, cameraRotation.z);
+
+            float lerpedXRotation = Mathf.Lerp(cameraXRotation, shakedXRoation, Time.deltaTime * 2f);
+            float lerpedYRotation = Mathf.Lerp(cameraYRotation, shakedYRotation, Time.deltaTime * 2f);
+            
+            Quaternion shakedRotations = Quaternion.Euler(lerpedXRotation, lerpedYRotation, cameraRotation.z);
+
             transform.rotation = shakedRotations;
             shakeCount++;
             if (shakeCount > shakeTime) { isShaking = false; }
@@ -46,6 +52,6 @@ public class CameraFollow : MonoBehaviour
 
     private void ProcessCoroutines()
     {
-        StartCoroutine(CameraShake(5, 5));
+        StartCoroutine(CameraShake(40, 40));
     }
 }

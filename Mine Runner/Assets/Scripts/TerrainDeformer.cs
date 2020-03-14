@@ -48,7 +48,8 @@ public class TerrainDeformer : MonoBehaviour
     GameObject ground;
     [SerializeField] Transform mineCart;
     [SerializeField] ParticleSystem sandDeformParticles;
-    float minerQuantity = 60f;
+    float minerQuantity = 660f;
+    float decreaseValue = 0.8f;
 
     [System.Obsolete]
     void Start()
@@ -90,8 +91,7 @@ public class TerrainDeformer : MonoBehaviour
         }
     }
 
-    // todo replace the mouse position with touch position deform terrain on mouse position for now
-    
+    // todo replace the mouse position with touch position, deform terrain on mouse position for now
     private void DeformTerrainByInput()
     {
         Vector3 mousePos = Input.mousePosition;
@@ -100,7 +100,23 @@ public class TerrainDeformer : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             DeformTerrain(hit.point, inds);
+            DecreaseMinerQuantity(decreaseValue);
         }
+    }
+
+    private void DecreaseMinerQuantity(float pointToDecrease)
+    {
+        minerQuantity -= pointToDecrease;
+        int convertedMinerQuantity = (int)minerQuantity;
+        Debug.Log(convertedMinerQuantity.ToString());
+    }
+
+    public void IncreaseMinerQuantity(int pointToAdd)
+    {
+        int addedValue = (int)minerQuantity + pointToAdd;
+        minerQuantity = Mathf.Lerp(minerQuantity, addedValue, Time.deltaTime);
+
+        Debug.Log(minerQuantity);
     }
 
     // instantiate sandDeform particles in every so if hit is equals to ground

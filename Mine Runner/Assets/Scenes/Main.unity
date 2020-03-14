@@ -673,7 +673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb9f32c4588ca1428e818a795e7954b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: -2.31, y: 20, z: 0}
+  offset: {x: 4, y: 20, z: 2}
 --- !u!4 &1005179250 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1486658214189180482, guid: 02c0cd2f1aeffc9458027b3fd7c73034,
