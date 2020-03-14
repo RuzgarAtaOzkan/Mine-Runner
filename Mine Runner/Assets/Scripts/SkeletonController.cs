@@ -101,7 +101,7 @@ public class SkeletonController : MonoBehaviour
                     }
                     yield return new WaitForSeconds(flashRepeatTime);
                 }
-                StopCoroutine(FlashObstacle(collision, "Obstacle", flashMat, 0.08f));
+                StopCoroutine(FlashObstacle(collision, "Player", flashMat, 0.2f));
             }
         } // reach skinned mesh renderer in every time in child if parameter objectTag is Player 
         else if (objectTag == "Obstacle")
@@ -152,7 +152,7 @@ public class SkeletonController : MonoBehaviour
                 }
                 StopCoroutine(FlashObstacle(collision, "Obstacle", flashMat, 0.08f));
             }
-        } // reach normal mesh renderer in every time if parameter objectTag is Obstacle, becuase obstacle
+        } // reach normal mesh renderer in every time if parameter objectTag is Obstacle, becuase obstacle has mesh renderer in firts collision layer
     }
 
     [Obsolete]

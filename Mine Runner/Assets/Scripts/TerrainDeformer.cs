@@ -130,15 +130,21 @@ public class TerrainDeformer : MonoBehaviour
     {
         while (true)
         {
-            Vector3 mousePos = Input.mousePosition;
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(mousePos);
-            if (Physics.Raycast(ray, out hit))
+            if (Input.touchCount > 0)
             {
-                if (hit.collider.gameObject == ground)
+                try { touch = Input.GetTouch(0); }
+                catch { Debug.Log("touch index is outside of the bounds"); }
+                Vector3 touchPos = touch.position;
+                //Vector3 mousePos = Input.mousePosition;
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(touchPos);
+                if (Physics.Raycast(ray, out hit))
                 {
-                    ParticleSystem sandDeformEffects = Instantiate(sandDeformParticles, hit.point + Vector3.right * 4f, Quaternion.identity);
-                    Destroy(sandDeformEffects, particleSpawnTime);
+                    if (hit.collider.gameObject == ground)
+                    {
+                        ParticleSystem sandDeformEffects = Instantiate(sandDeformParticles, hit.point + Vector3.right * 4f, Quaternion.identity);
+                        Destroy(sandDeformEffects, particleSpawnTime);
+                    }
                 }
             }
             yield return new WaitForSeconds(particleSpawnTime);
