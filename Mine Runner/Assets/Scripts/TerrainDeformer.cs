@@ -95,7 +95,7 @@ public class TerrainDeformer : MonoBehaviour
     // todo replace the mouse position with touch position, deform terrain on mouse position for now
     private void DeformTerrainByInput()
     {
-        
+        //touch = Input.GetTouch(0);
         Vector3 touchPos = touch.position;
         Vector3 mousePos = Input.mousePosition;
         RaycastHit hit;
@@ -104,6 +104,22 @@ public class TerrainDeformer : MonoBehaviour
         {
             DeformTerrain(hit.point, inds);
             DecreaseMinerQuantity(decreaseValue);
+
+            switch (touch.phase)
+            {
+                case TouchPhase.Began:
+                    Debug.Log("touch has begun");
+                    break;
+
+                case TouchPhase.Moved:
+                    Debug.Log("touch is moving");
+                    break;
+
+                case TouchPhase.Ended:
+                    Debug.Log("touch has ended");
+                    break;
+            }
+
         }
     }
 

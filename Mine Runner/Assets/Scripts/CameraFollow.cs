@@ -30,6 +30,7 @@ public class CameraFollow : MonoBehaviour
         while (isShaking)
         {
             Quaternion cameraRotation = Camera.main.transform.rotation;
+
             float xShakeMagnitude = Random.Range(-xMagnitude, xMagnitude);
             float yShakeMagnitude = Random.Range(-yMagnitude, yMagnitude);
 
