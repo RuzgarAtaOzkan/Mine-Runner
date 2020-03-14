@@ -8,6 +8,7 @@ public class SkeletonController : MonoBehaviour
     Rigidbody rb;
     Animator animator;
     RockMovement rockMovement;
+    TerrainDeformer terrainDeformer;
     int obstaclesLength;
     float speed = 9f;
 
@@ -19,6 +20,7 @@ public class SkeletonController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rockMovement = FindObjectOfType<RockMovement>();
+        terrainDeformer = FindObjectOfType<TerrainDeformer>();
         animator = GetComponent<Animator>();
         obstaclesLength = GameObject.FindGameObjectsWithTag("Obstacle").Length;
     }
@@ -116,6 +118,7 @@ public class SkeletonController : MonoBehaviour
         Destroy(collision.gameObject, destroyDuration);
     }
 
+    // move minerquantity paricles to specific point
     private static void LerpMinerQuantities(Vector3 target, float distanceTrigger) // lerp all the quantity FXs to specific position, trigger if the distance below the specific value
     {
         GameObject[] minerQuantities = GameObject.FindGameObjectsWithTag("MinerQuantityFX");
