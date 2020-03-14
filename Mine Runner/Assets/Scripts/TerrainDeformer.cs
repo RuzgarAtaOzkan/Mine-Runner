@@ -95,11 +95,11 @@ public class TerrainDeformer : MonoBehaviour
     // todo replace the mouse position with touch position, deform terrain on mouse position for now
     private void DeformTerrainByInput()
     {
-        //touch = Input.GetTouch(0);
+        touch = Input.GetTouch(0);
         Vector3 touchPos = touch.position;
         Vector3 mousePos = Input.mousePosition;
         RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(mousePos);
+        Ray ray = Camera.main.ScreenPointToRay(touchPos);
         if (Physics.Raycast(ray, out hit))
         {
             DeformTerrain(hit.point, inds);
@@ -119,7 +119,6 @@ public class TerrainDeformer : MonoBehaviour
                     Debug.Log("touch has ended");
                     break;
             }
-
         }
     }
 
@@ -127,14 +126,12 @@ public class TerrainDeformer : MonoBehaviour
     {
         minerQuantity -= pointToDecrease;
         int convertedMinerQuantity = (int)minerQuantity;
-        Debug.Log(convertedMinerQuantity.ToString());
     }
 
     public void IncreaseMinerQuantity(int pointToAdd)
     {
         int addedValue = (int)minerQuantity + pointToAdd;
         minerQuantity = Mathf.Lerp(minerQuantity, addedValue, Time.deltaTime);
-        Debug.Log(minerQuantity);
     }
 
     // instantiate sandDeform particles in every so if hit is equals to ground

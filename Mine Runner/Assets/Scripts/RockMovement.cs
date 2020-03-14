@@ -38,6 +38,7 @@ public class RockMovement : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             isCrushed = true;
+            Handheld.Vibrate();
         }
     }
 

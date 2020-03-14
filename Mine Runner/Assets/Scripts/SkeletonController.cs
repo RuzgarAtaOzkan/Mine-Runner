@@ -39,7 +39,7 @@ public class SkeletonController : MonoBehaviour
         if (collision.gameObject.tag == "Obstacle" && collision.gameObject.tag != "Terrain")
         {
             animator.SetBool("isDigging", true);
-            StartCoroutine(FlashObstacle(collision, flashMat, 0.05f));
+            StartCoroutine(FlashObstacle(collision, flashMat, 0.05f)); // third parameter is determine the sequence time between flashes
             DestroyObstacleAfterFlashObstacle(collision, 1.1f);
         }
     }
@@ -126,6 +126,7 @@ public class SkeletonController : MonoBehaviour
         {
             if (minerQuantity != null)
             {
+                // lerp the minerQuantity particles to target and destroy them after a specific time
                 minerQuantity.transform.position = Vector3.Lerp(minerQuantity.transform.position, target, Time.deltaTime * 2f);
                 float distanceBetweenMinerQuantityAndTarget = Vector3.Distance(minerQuantity.transform.position, target);
                 if (distanceBetweenMinerQuantityAndTarget < distanceTrigger)
@@ -145,7 +146,7 @@ public class SkeletonController : MonoBehaviour
         {
             for (int i = 0; i < minerQuantities.Length; i++)
             {
-                Destroy(minerQuantities[i++]);
+                Destroy(minerQuantities[++i]);
             }
         }
     }
@@ -156,6 +157,7 @@ public class SkeletonController : MonoBehaviour
         if (childrens < obstaclesLength)
         {
             obstaclesLength = childrens;
+            Handheld.Vibrate();
             animator.SetBool("isDigging", false);
         }
     } 
@@ -172,4 +174,5 @@ public class SkeletonController : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, xRotation - 1, xRotation + 2);
         transform.rotation = Quaternion.Euler(xRotation, 90f, 90f);
     }
+
 }
