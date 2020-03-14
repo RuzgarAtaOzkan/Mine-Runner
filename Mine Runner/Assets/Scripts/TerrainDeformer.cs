@@ -44,6 +44,7 @@ public class TerrainDeformer : MonoBehaviour
     private float[,,] alphaMapBackup;
 
     // todo my part of script
+    Touch touch;
     RockMovement rockMovement;
     GameObject ground;
     [SerializeField] Transform mineCart;
@@ -94,6 +95,8 @@ public class TerrainDeformer : MonoBehaviour
     // todo replace the mouse position with touch position, deform terrain on mouse position for now
     private void DeformTerrainByInput()
     {
+        
+        Vector3 touchPos = touch.position;
         Vector3 mousePos = Input.mousePosition;
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(mousePos);
@@ -115,7 +118,6 @@ public class TerrainDeformer : MonoBehaviour
     {
         int addedValue = (int)minerQuantity + pointToAdd;
         minerQuantity = Mathf.Lerp(minerQuantity, addedValue, Time.deltaTime);
-
         Debug.Log(minerQuantity);
     }
 

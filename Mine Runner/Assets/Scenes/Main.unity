@@ -855,19 +855,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 675639972, guid: 790cbaa43a4b19c4a964617119f8d796, type: 3}
-      propertyPath: cubeToLerp
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 675639972, guid: 790cbaa43a4b19c4a964617119f8d796, type: 3}
-      propertyPath: minerQuantityFX
-      value: 
-      objectReference: {fileID: 5219847036319918994, guid: e6a59d25806c3b34ea774b936f43bd06,
-        type: 3}
-    - target: {fileID: 675639972, guid: 790cbaa43a4b19c4a964617119f8d796, type: 3}
-      propertyPath: minerQuantityFXLerpTarget
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 675639972, guid: 790cbaa43a4b19c4a964617119f8d796, type: 3}
       propertyPath: minerQuantitiyLerpTarget
       value: 
       objectReference: {fileID: 1241570479}
@@ -926,30 +913,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 1405981387318021336, guid: 790cbaa43a4b19c4a964617119f8d796,
-        type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 1995569314731448510, guid: 790cbaa43a4b19c4a964617119f8d796,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.32
-      objectReference: {fileID: 0}
     - target: {fileID: 4311111495703447436, guid: 790cbaa43a4b19c4a964617119f8d796,
         type: 3}
       propertyPath: m_Name
       value: skeleton
-      objectReference: {fileID: 0}
-    - target: {fileID: 7022553330331521149, guid: 790cbaa43a4b19c4a964617119f8d796,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7022553330331521149, guid: 790cbaa43a4b19c4a964617119f8d796,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 116
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 790cbaa43a4b19c4a964617119f8d796, type: 3}
