@@ -13,6 +13,7 @@ public class SkeletonController : MonoBehaviour
 
     [SerializeField] Material flashMat;
     [SerializeField] GameObject minerQuantityFX;
+    [SerializeField] Transform minerQuantitiyLerpTarget;
 
     void Start()
     {
@@ -27,7 +28,7 @@ public class SkeletonController : MonoBehaviour
         FreezeRotations();
         MovePosition(speed);
         KeepTrackOfObjectsWithTag("Obstacle");
-        LerpMinerQuantities();
+        LerpMinerQuantities(minerQuantitiyLerpTarget.position);
     }
 
     [Obsolete]
@@ -115,19 +116,20 @@ public class SkeletonController : MonoBehaviour
         Destroy(collision.gameObject, destroyDuration);
     }
 
-    private static void LerpMinerQuantities() // lerp all the quantity FXs to specific position
+    private static void LerpMinerQuantities(Vector3 target) // lerp all the quantity FXs to specific position
     {
-        GameObject[] minerQuantitys = GameObject.FindGameObjectsWithTag("MinerQuantityFX");
-        foreach (GameObject minerQuantity in minerQuantitys)
+        GameObject[] minerQuantities = GameObject.FindGameObjectsWithTag("MinerQuantityFX");
+        foreach (GameObject minerQuantity in minerQuantities)
         {
             if (minerQuantity != null)
             {
-                minerQuantity.transform.position = Vector3.Lerp(minerQuantity.transform.position, new Vector3(25f, 25f, 25f), Time.deltaTime * 0.2f);
+                minerQuantity.transform.position = Vector3.Lerp(minerQuantity.transform.position, target, Time.deltaTime * 2f);
+                Destroy(minerQuantity, 2f);
             }
         }
     }
 
-    private void KeepTrackOfMinerQuantitiesLength(Collision collision, float numberOfMinerQuantity) // destroy mine quantities if they passed the edge value 
+    private void KeepTrackOfMinerQuantitiesLength(Collision collision, float numberOfMinerQuantity) // destroy mine quantities if they passed the edge value
     {
         Instantiate(minerQuantityFX, collision.gameObject.transform.position, Quaternion.identity);
         GameObject[] minerQuantities = GameObject.FindGameObjectsWithTag("MinerQuantityFX");
