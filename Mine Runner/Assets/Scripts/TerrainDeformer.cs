@@ -26,6 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -45,6 +46,7 @@ public class TerrainDeformer : MonoBehaviour
 
     // todo my part of script
     Touch touch;
+    public Text text;
     RockMovement rockMovement;
     GameObject ground;
     [SerializeField] Transform mineCart;
@@ -66,6 +68,7 @@ public class TerrainDeformer : MonoBehaviour
             heightMapBackup = terr.terrainData.GetHeights(0, 0, hmWidth, hmHeight);
             alphaMapBackup = terr.terrainData.GetAlphamaps(0, 0, alphaMapWidth, alphaMapHeight);
         }
+        text.text = minerQuantity.ToString();
         ground = GameObject.Find("Ground");
         rockMovement = FindObjectOfType<RockMovement>();
         ProcessCoroutines();
@@ -115,14 +118,14 @@ public class TerrainDeformer : MonoBehaviour
     {
         minerQuantity -= pointToDecrease;
         int convertedMinerQuantity = (int)minerQuantity;
-        Debug.Log(convertedMinerQuantity);
+        text.text = convertedMinerQuantity.ToString();
     }
 
     public void IncreaseMinerQuantity(int pointToAdd)
     {
         int addedValue = (int)minerQuantity + pointToAdd;
         minerQuantity = Mathf.Lerp(minerQuantity, addedValue, Time.deltaTime);
-        Debug.Log(minerQuantity);
+        text.text = minerQuantity.ToString();
     }
 
     // instantiate sandDeform particles in every so if hit is equals to ground
