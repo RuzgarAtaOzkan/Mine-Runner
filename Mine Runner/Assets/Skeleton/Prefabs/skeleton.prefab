@@ -3092,6 +3092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d12ce94c726828045b5a1a56c0d409b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flashImage: {fileID: 0}
   flashMat: {fileID: 2100000, guid: 58e7b525f0f02624797a08e9e8b2f612, type: 2}
   minerQuantityFX: {fileID: 5219847036319918994, guid: e6a59d25806c3b34ea774b936f43bd06,
     type: 3}

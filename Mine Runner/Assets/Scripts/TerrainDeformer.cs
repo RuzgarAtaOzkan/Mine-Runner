@@ -27,6 +27,7 @@ THE SOFTWARE.
 */
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -48,6 +49,7 @@ public class TerrainDeformer : MonoBehaviour
     Touch touch;
     public Text text;
     RockMovement rockMovement;
+    LevelManager levelManager;
     GameObject ground;
     [SerializeField] Transform mineCart;
     [SerializeField] ParticleSystem sandDeformParticles;
@@ -70,7 +72,13 @@ public class TerrainDeformer : MonoBehaviour
         text.text = minerQuantity.ToString();
         ground = GameObject.Find("Ground");
         rockMovement = FindObjectOfType<RockMovement>();
+        levelManager = FindObjectOfType<LevelManager>();
         ProcessCoroutines();
+        if (SceneManager.GetActiveScene().name == "Menu")
+        {
+            minerQuantity = Mathf.Infinity;
+            text.gameObject.SetActive(false);
+        }
     }
 
     //this has to be done because terrains for some reason or another terrains don't reset after you run the app
@@ -81,6 +89,12 @@ public class TerrainDeformer : MonoBehaviour
             terr.terrainData.SetHeights(0, 0, heightMapBackup);
             terr.terrainData.SetAlphamaps(0, 0, alphaMapBackup);
         }
+    }
+
+    public void SetTerrainHeightsBackToNormal()
+    {
+        terr.terrainData.SetHeights(0, 0, heightMapBackup);
+        terr.terrainData.SetAlphamaps(0, 0, alphaMapBackup);
     }
 
     public float inds;
@@ -109,6 +123,10 @@ public class TerrainDeformer : MonoBehaviour
             {
                 DeformTerrain(hit.point, inds);
                 DecreaseMinerQuantity(1);
+                if (hit.transform.gameObject.name == "Play Button")
+                {
+                    levelManager.LoadNextLevel();
+                }
             }
         }
     }

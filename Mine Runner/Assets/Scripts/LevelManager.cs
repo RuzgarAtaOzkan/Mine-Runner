@@ -5,6 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+
+    TerrainDeformer terrainDeformer;
+
+    private void Start()
+    {
+        terrainDeformer = FindObjectOfType<TerrainDeformer>();
+    }
+
+    public void LoadNextLevel()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        int nextScene = currentSceneIndex + 1;
+        SceneManager.LoadScene(nextScene);
+    } 
+
     public void ReLoadCurrentLevel()
     {
         StartCoroutine(LoadCurrentLevel(2f));
