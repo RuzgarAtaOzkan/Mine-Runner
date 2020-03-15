@@ -39,7 +39,7 @@ public class SkeletonController : MonoBehaviour
         if (collision.gameObject.tag == "Obstacle" && collision.gameObject.tag != "Terrain")
         {
             animator.SetBool("isDigging", true);
-            StartCoroutine(FlashObstacle(collision, "Obstacle", flashMat, 0.05f)); // third parameter is determine the sequence time between flashes
+            StartCoroutine(FlashObject(collision, "Obstacle", flashMat, 0.05f)); // third parameter is determine the sequence time between flashes
             DestroyObstacleAfterFlashObstacle(collision, 1.1f);
         }
     }
@@ -53,7 +53,7 @@ public class SkeletonController : MonoBehaviour
     }
 
     [Obsolete]
-    public IEnumerator FlashObstacle(Collision collision, string objectTag, Material flashMat, float flashRepeatTime)
+    public IEnumerator FlashObject(Collision collision, string objectTag, Material flashMat, float flashRepeatTime)
     {
         if (objectTag == "Player")
         {
@@ -101,7 +101,7 @@ public class SkeletonController : MonoBehaviour
                     }
                     yield return new WaitForSeconds(flashRepeatTime);
                 }
-                StopCoroutine(FlashObstacle(collision, "Player", flashMat, 0.2f));
+                StopCoroutine(FlashObject(collision, "Player", flashMat, 0.2f));
             }
         } // reach skinned mesh renderer in every time in child if parameter objectTag is Player 
         else if (objectTag == "Obstacle")
@@ -150,7 +150,7 @@ public class SkeletonController : MonoBehaviour
                     }
                     yield return new WaitForSeconds(flashRepeatTime);
                 }
-                StopCoroutine(FlashObstacle(collision, "Obstacle", flashMat, 0.08f));
+                StopCoroutine(FlashObject(collision, "Obstacle", flashMat, 0.08f));
             }
         } // reach normal mesh renderer in every time if parameter objectTag is Obstacle, becuase obstacle has mesh renderer in firts collision layer
     }
@@ -175,7 +175,6 @@ public class SkeletonController : MonoBehaviour
                 // lerp the minerQuantity particles to target and destroy them after a specific time
                 minerQuantity.transform.position = Vector3.Lerp(minerQuantity.transform.position, target, Time.deltaTime * 3f);
                 float distanceBetweenMinerQuantityAndTarget = Vector3.Distance(minerQuantity.transform.position, target);
-                Debug.Log(distanceBetweenMinerQuantityAndTarget);
                 if (distanceBetweenMinerQuantityAndTarget < distanceTrigger)
                 {
                     terrainDeformer.IncreaseMinerQuantity(35); // increase miner quantities when their distance below a specific value

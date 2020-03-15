@@ -97,7 +97,6 @@ public class TerrainDeformer : MonoBehaviour
     // todo replace the mouse position with touch position, deform terrain on mouse position for now
     private void DeformTerrainByInput()
     {
-        
         if (Input.touchCount > 0 && minerQuantity > 0)
         {
             try { touch = Input.GetTouch(0); }

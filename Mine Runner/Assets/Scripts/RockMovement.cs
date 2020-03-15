@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class RockMovement : MonoBehaviour
 {
@@ -11,7 +12,9 @@ public class RockMovement : MonoBehaviour
     SkeletonController skeletonController;
     public bool shouldDeform = false;
     public bool isCrushed = false;
+    bool isFlashing = true;
 
+    [SerializeField] Image flashImage;
     [SerializeField] Material flashMat;
     [SerializeField] Transform target;
     [SerializeField] ParticleSystem rockDestroyFX;
@@ -22,6 +25,7 @@ public class RockMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         skeletonController = FindObjectOfType<SkeletonController>();
+        flashImage.canvasRenderer.SetAlpha(0.0f);
         ProcessCoroutines();
     }
 
@@ -41,9 +45,24 @@ public class RockMovement : MonoBehaviour
         if (collision.gameObject.tag == "Player" && collision.gameObject.tag != "Terrain")
         {
             isCrushed = true;
-            StartCoroutine(skeletonController.FlashObstacle(collision, "Player", flashMat, 0.2f));
+            StartCoroutine(skeletonController.FlashObject(collision, "Player", flashMat, 0.2f));
+            StartCoroutine(FlashEffect(0.5f));
             Handheld.Vibrate();
         }
+    }
+
+    private IEnumerator FlashEffect(float flashTime)
+    {
+        while (isFlashing)
+        {
+            flashImage.CrossFadeAlpha(1f, 0.5f, true);
+            isFlashing = false;
+            yield return new WaitForSeconds(flashTime);
+            flashImage.CrossFadeAlpha(0f, 0.5f, true);
+        }
+        StopCoroutine(FlashEffect(1f));
+        yield return new WaitForSeconds(0.5f);
+        Time.timeScale = 0.1f;
     }
 
     [Obsolete]

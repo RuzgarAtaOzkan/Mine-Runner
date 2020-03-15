@@ -30,18 +30,13 @@ public class CameraFollow : MonoBehaviour
         while (isShaking)
         {
             Quaternion cameraRotation = Camera.main.transform.rotation;
-
             float xShakeMagnitude = Random.Range(-xMagnitude, xMagnitude);
             float yShakeMagnitude = Random.Range(-yMagnitude, yMagnitude);
-
             float shakedXRoation = cameraXRotation + xShakeMagnitude;
             float shakedYRotation = cameraYRotation + yShakeMagnitude;
-
             float lerpedXRotation = Mathf.Lerp(cameraXRotation, shakedXRoation, Time.deltaTime * 2f);
             float lerpedYRotation = Mathf.Lerp(cameraYRotation, shakedYRotation, Time.deltaTime * 2f);
-            
             Quaternion shakedRotations = Quaternion.Euler(lerpedXRotation, lerpedYRotation, cameraRotation.z);
-
             transform.rotation = shakedRotations;
             shakeCount++;
             if (shakeCount > shakeTime) { isShaking = false; }
