@@ -52,7 +52,6 @@ public class TerrainDeformer : MonoBehaviour
     [SerializeField] Transform mineCart;
     [SerializeField] ParticleSystem sandDeformParticles;
     float minerQuantity = 60f;
-    int decreaseValue = 1;
 
     [System.Obsolete]
     void Start()
@@ -110,7 +109,7 @@ public class TerrainDeformer : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 DeformTerrain(hit.point, inds);
-                DecreaseMinerQuantity(decreaseValue);
+                DecreaseMinerQuantity(1);
             }
         }
     }
@@ -127,7 +126,6 @@ public class TerrainDeformer : MonoBehaviour
         int addedValue = (int)minerQuantity + pointToAdd;
         minerQuantity = Mathf.Lerp(minerQuantity, addedValue, Time.deltaTime);
         text.text = Mathf.RoundToInt(minerQuantity).ToString();
-        print("utku");
     }
 
     // instantiate sandDeform particles in every so if hit is equals to ground

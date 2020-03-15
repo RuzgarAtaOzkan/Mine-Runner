@@ -175,9 +175,10 @@ public class SkeletonController : MonoBehaviour
                 // lerp the minerQuantity particles to target and destroy them after a specific time
                 minerQuantity.transform.position = Vector3.Lerp(minerQuantity.transform.position, target, Time.deltaTime * 3f);
                 float distanceBetweenMinerQuantityAndTarget = Vector3.Distance(minerQuantity.transform.position, target);
+                Debug.Log(distanceBetweenMinerQuantityAndTarget);
                 if (distanceBetweenMinerQuantityAndTarget < distanceTrigger)
                 {
-                    terrainDeformer.IncreaseMinerQuantity(30); // increase miner quantities when their distance below a specific value
+                    terrainDeformer.IncreaseMinerQuantity(35); // increase miner quantities when their distance below a specific value
                 }
                 Destroy(minerQuantity, 2f);
             }
