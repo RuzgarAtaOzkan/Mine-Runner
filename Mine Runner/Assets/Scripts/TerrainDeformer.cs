@@ -127,6 +127,10 @@ public class TerrainDeformer : MonoBehaviour
                 {
                     levelManager.LoadNextLevel();
                 }
+                if (hit.transform.gameObject.name == "Levels Button")
+                {
+                    SceneManager.LoadScene("levels");
+                }
             }
         }
     }
