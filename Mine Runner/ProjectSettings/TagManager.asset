@@ -8,6 +8,7 @@ TagManager:
   - Obstacle
   - Terrain
   - MinerQuantityFX
+  - Exit
   layers:
   - Default
   - TransparentFX

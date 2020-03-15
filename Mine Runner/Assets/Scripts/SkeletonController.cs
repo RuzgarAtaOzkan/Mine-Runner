@@ -10,6 +10,8 @@ public class SkeletonController : MonoBehaviour
     Animator animator;
     RockMovement rockMovement;
     TerrainDeformer terrainDeformer;
+    LevelManager levelManager;
+    Transform exitMine;
     int obstaclesLength;
     float speed = 9f;
 
@@ -24,8 +26,10 @@ public class SkeletonController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rockMovement = FindObjectOfType<RockMovement>();
         terrainDeformer = FindObjectOfType<TerrainDeformer>();
+        levelManager = FindObjectOfType<LevelManager>();
         animator = GetComponent<Animator>();
         obstaclesLength = GameObject.FindGameObjectsWithTag("Obstacle").Length;
+        exitMine = GameObject.Find("ExitMine").transform;
     }
 
     void Update()
@@ -44,6 +48,11 @@ public class SkeletonController : MonoBehaviour
             animator.SetBool("isDigging", true);
             StartCoroutine(FlashObject(collision, "Obstacle", flashMat, 0.05f)); // third parameter is determine the sequence time between flashes
             DestroyObstacleAfterFlashObstacle(collision, 1.1f);
+        }
+
+        if (collision.gameObject.tag == "Exit")
+        {
+            levelManager.ReLoadCurrentLevel();
         }
     }
 
