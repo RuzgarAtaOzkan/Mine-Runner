@@ -28,7 +28,7 @@ public class LevelManager : MonoBehaviour
 
     public void ReLoadCurrentLevel()
     {
-        StartCoroutine(LoadCurrentLevel(2f));
+        StartCoroutine(LoadCurrentLevel(1.5f));
     }
 
     IEnumerator LoadCurrentLevel(float loadTime)

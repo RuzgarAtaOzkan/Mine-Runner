@@ -10,6 +10,7 @@ public class RockMovement : MonoBehaviour
     Rigidbody rb;
     NavMeshAgent agent;
     SkeletonController skeletonController;
+    LevelManager levelManager;
     public bool shouldDeform = false;
     public bool isCrushed = false;
     bool isFlashing = true;
@@ -25,7 +26,9 @@ public class RockMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         skeletonController = FindObjectOfType<SkeletonController>();
+        levelManager = FindObjectOfType<LevelManager>();
         ProcessCoroutines();
+        Time.timeScale = 1f;
     }
 
     void Update()
@@ -60,8 +63,10 @@ public class RockMovement : MonoBehaviour
             flashImage.CrossFadeAlpha(0f, 0.5f, true);
         }
         StopCoroutine(FlashEffect(1f));
+        levelManager.ReLoadCurrentLevel();
         yield return new WaitForSeconds(0.5f);
-        Time.timeScale = 0.1f;
+        Time.timeScale = 0.4f;
+        
     }
 
     [Obsolete]
