@@ -11,7 +11,7 @@ public class SkeletonController : MonoBehaviour
     RockMovement rockMovement;
     TerrainDeformer terrainDeformer;
     LevelManager levelManager;
-    Transform exitMine;
+    Transform exitMine; // piece of shit sarmaz
     int obstaclesLength;
     float speed = 9f;
 
@@ -52,7 +52,7 @@ public class SkeletonController : MonoBehaviour
 
         if (collision.gameObject.tag == "Exit")
         {
-            levelManager.ReLoadCurrentLevel();
+            levelManager.LoadNextLevel();
         }
     }
 

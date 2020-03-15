@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-
     TerrainDeformer terrainDeformer;
 
     private void Start()
@@ -15,11 +14,17 @@ public class LevelManager : MonoBehaviour
 
     public void LoadNextLevel()
     {
+        StartCoroutine(LoadNextLevelSMooth(1f));
+    }
+
+    IEnumerator LoadNextLevelSMooth(float loadTime)
+    {
+        yield return new WaitForSeconds(loadTime);
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         int nextScene = currentSceneIndex + 1;
         SceneManager.LoadScene(nextScene);
         terrainDeformer.SetTerrainHeightsBackToNormal();
-    } 
+    }
 
     public void ReLoadCurrentLevel()
     {
