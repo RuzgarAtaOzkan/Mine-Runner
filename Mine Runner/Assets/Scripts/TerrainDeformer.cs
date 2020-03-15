@@ -51,8 +51,8 @@ public class TerrainDeformer : MonoBehaviour
     GameObject ground;
     [SerializeField] Transform mineCart;
     [SerializeField] ParticleSystem sandDeformParticles;
-    float minerQuantity = 660f;
-    float decreaseValue = 0.8f;
+    float minerQuantity = 60f;
+    int decreaseValue = 1;
 
     [System.Obsolete]
     void Start()
@@ -98,7 +98,8 @@ public class TerrainDeformer : MonoBehaviour
     // todo replace the mouse position with touch position, deform terrain on mouse position for now
     private void DeformTerrainByInput()
     {
-        if (Input.touchCount > 0)
+        
+        if (Input.touchCount > 0 && minerQuantity > 0)
         {
             try { touch = Input.GetTouch(0); }
             catch { Debug.Log("Touch index you try to get is outside of the bounds of the array"); }
@@ -118,14 +119,15 @@ public class TerrainDeformer : MonoBehaviour
     {
         minerQuantity -= pointToDecrease;
         int convertedMinerQuantity = (int)minerQuantity;
-        text.text = convertedMinerQuantity.ToString();
+        text.text = Mathf.RoundToInt(convertedMinerQuantity).ToString();
     }
 
     public void IncreaseMinerQuantity(int pointToAdd)
     {
         int addedValue = (int)minerQuantity + pointToAdd;
         minerQuantity = Mathf.Lerp(minerQuantity, addedValue, Time.deltaTime);
-        text.text = minerQuantity.ToString();
+        text.text = Mathf.RoundToInt(minerQuantity).ToString();
+        print("utku");
     }
 
     // instantiate sandDeform particles in every so if hit is equals to ground

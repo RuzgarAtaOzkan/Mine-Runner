@@ -177,7 +177,7 @@ public class SkeletonController : MonoBehaviour
                 float distanceBetweenMinerQuantityAndTarget = Vector3.Distance(minerQuantity.transform.position, target);
                 if (distanceBetweenMinerQuantityAndTarget < distanceTrigger)
                 {
-                    terrainDeformer.IncreaseMinerQuantity(60);
+                    terrainDeformer.IncreaseMinerQuantity(30); // increase miner quantities when their distance below a specific value
                 }
                 Destroy(minerQuantity, 2f);
             }
