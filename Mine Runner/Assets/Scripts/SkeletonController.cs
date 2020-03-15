@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SkeletonController : MonoBehaviour
 {
@@ -12,12 +13,14 @@ public class SkeletonController : MonoBehaviour
     int obstaclesLength;
     float speed = 9f;
 
+    [SerializeField] public Image flashImage;
     [SerializeField] Material flashMat;
     [SerializeField] GameObject minerQuantityFX;
     [SerializeField] Transform minerQuantitiyLerpTarget;
 
     void Start()
     {
+        flashImage.canvasRenderer.SetAlpha(0.0f);
         rb = GetComponent<Rigidbody>();
         rockMovement = FindObjectOfType<RockMovement>();
         terrainDeformer = FindObjectOfType<TerrainDeformer>();

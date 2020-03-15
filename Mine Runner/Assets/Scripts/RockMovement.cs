@@ -22,10 +22,10 @@ public class RockMovement : MonoBehaviour
     [Obsolete]
     void Start()
     {
+        flashImage = skeletonController.flashImage;
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         skeletonController = FindObjectOfType<SkeletonController>();
-        flashImage.canvasRenderer.SetAlpha(0.0f);
         ProcessCoroutines();
     }
 

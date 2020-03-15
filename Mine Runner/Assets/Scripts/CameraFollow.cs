@@ -17,7 +17,10 @@ public class CameraFollow : MonoBehaviour
     void Update()
     {
         transform.position = Vector3.Lerp(transform.position, targetSkeleton.transform.position + offset, Time.deltaTime);
-        if (rockMovement.isCrushed) { ProcessCoroutines(); }
+        if (rockMovement != null)
+        {
+            if (rockMovement.isCrushed) { ProcessCoroutines(); }
+        }
     }
 
     private IEnumerator CameraShake(int xMagnitude, int yMagnitude)

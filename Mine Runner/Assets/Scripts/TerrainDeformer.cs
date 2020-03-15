@@ -88,8 +88,8 @@ public class TerrainDeformer : MonoBehaviour
     private void Update()
     {
         DeformTerrainByInput();
-        if (rockMovement.shouldDeform) // deform terrain on rock if its velocity is below 0.5, beacuse it means that the rock is probably stuck
-        { 
+        if (mineCart != null)
+        {
             DeformTerrain(mineCart.position, inds + 10f);
         }
     }
