@@ -18,6 +18,7 @@ public class LevelManager : MonoBehaviour
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         int nextScene = currentSceneIndex + 1;
         SceneManager.LoadScene(nextScene);
+        terrainDeformer.SetTerrainHeightsBackToNormal();
     } 
 
     public void ReLoadCurrentLevel()
@@ -29,5 +30,6 @@ public class LevelManager : MonoBehaviour
     {
         yield return new WaitForSeconds(loadTime);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        terrainDeformer.SetTerrainHeightsBackToNormal();
     }
 }
