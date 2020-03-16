@@ -3,3 +3,5 @@ personal android game for play store
 
 the codes turned into a disaster, I get so confused at last days
 just leaving it as is
+
+you can use the source code however you want
