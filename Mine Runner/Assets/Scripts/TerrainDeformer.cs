@@ -1,31 +1,4 @@
-﻿// TerrainDeformer - Demonstrating a method modifying terrain in real-time. Changing height and texture
-//
-// released under MIT License
-// http://www.opensource.org/licenses/mit-license.php
-//
-//@author		Devin Reimer
-//@website 		http://blog.almostlogical.com
-//Copyright (c) 2010 Devin Reimer
-/*
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, license, distribute, suband/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
@@ -34,9 +7,9 @@ using System.Collections.Generic;
 public class TerrainDeformer : MonoBehaviour
 {
     public int terrainDeformationTextureNum = 1;
-    private Terrain terr; // terrain to modify
-    protected int hmWidth; // heightmap width
-    protected int hmHeight; // heightmap height
+    private Terrain terr;
+    protected int hmWidth;
+    protected int hmHeight;
     protected int alphaMapWidth;
     protected int alphaMapHeight;
     protected int numOfAlphaLayers;
@@ -45,14 +18,15 @@ public class TerrainDeformer : MonoBehaviour
     private float[,] heightMapBackup;
     private float[,,] alphaMapBackup;
 
-    // todo my part of script
     Touch touch;
     public Text text;
+    AudioSource audioSource;
     RockMovement rockMovement;
     LevelManager levelManager;
     GameObject ground;
     [SerializeField] Transform mineCart;
     [SerializeField] ParticleSystem sandDeformParticles;
+    [SerializeField] AudioClip sandDeformSFX;
     float minerQuantity = 60f;
 
     [System.Obsolete]
@@ -69,6 +43,7 @@ public class TerrainDeformer : MonoBehaviour
             heightMapBackup = terr.terrainData.GetHeights(0, 0, hmWidth, hmHeight);
             alphaMapBackup = terr.terrainData.GetAlphamaps(0, 0, alphaMapWidth, alphaMapHeight);
         }
+        audioSource = GetComponent<AudioSource>();
         text.text = minerQuantity.ToString();
         ground = GameObject.Find("Ground");
         rockMovement = FindObjectOfType<RockMovement>();
@@ -81,7 +56,6 @@ public class TerrainDeformer : MonoBehaviour
         }
     }
 
-    //this has to be done because terrains for some reason or another terrains don't reset after you run the app
     void OnApplicationQuit()
     {
         if (Debug.isDebugBuild)
@@ -113,6 +87,10 @@ public class TerrainDeformer : MonoBehaviour
     {
         if (Input.touchCount > 0 && minerQuantity > 0)
         {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.PlayOneShot(sandDeformSFX);
+            }
             try { touch = Input.GetTouch(0); }
             catch { Debug.Log("Touch index you try to get is outside of the bounds of the array"); }
             Vector3 touchPos = touch.position;
@@ -123,6 +101,7 @@ public class TerrainDeformer : MonoBehaviour
             {
                 DeformTerrain(hit.point, inds);
                 DecreaseMinerQuantity(1);
+
                 if (hit.transform.gameObject.name == "Play Button")
                 {
                     levelManager.LoadNextLevel();

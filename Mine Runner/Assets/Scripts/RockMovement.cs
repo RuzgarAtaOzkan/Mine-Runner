@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class RockMovement : MonoBehaviour
 {
+    AudioSource audioSource;
     Rigidbody rb;
     NavMeshAgent agent;
     SkeletonController skeletonController;
@@ -15,6 +17,7 @@ public class RockMovement : MonoBehaviour
     public bool isCrushed = false;
     bool isFlashing = true;
 
+    [SerializeField] AudioClip crashSoundSFX;
     [SerializeField] Image flashImage;
     [SerializeField] Material flashMat;
     [SerializeField] Transform target;
@@ -23,6 +26,7 @@ public class RockMovement : MonoBehaviour
     [Obsolete]
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         skeletonController = FindObjectOfType<SkeletonController>();
@@ -46,6 +50,7 @@ public class RockMovement : MonoBehaviour
         }
         if (collision.gameObject.tag == "Player" && collision.gameObject.tag != "Terrain")
         {
+            AudioSource.PlayClipAtPoint(crashSoundSFX, transform.position);
             isCrushed = true;
             StartCoroutine(skeletonController.FlashObject(collision, "Player", flashMat, 0.2f));
             StartCoroutine(FlashEffect(0.5f));

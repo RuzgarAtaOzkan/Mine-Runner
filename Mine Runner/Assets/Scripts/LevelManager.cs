@@ -5,15 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+    AudioSource audioSource;
     TerrainDeformer terrainDeformer;
+
+    [SerializeField] AudioClip levelPassSFX;
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         terrainDeformer = FindObjectOfType<TerrainDeformer>();
     }
 
     public void LoadNextLevel()
     {
+        AudioSource.PlayClipAtPoint(levelPassSFX, Camera.main.transform.position);
         StartCoroutine(LoadNextLevelSMooth(1f));
     }
 

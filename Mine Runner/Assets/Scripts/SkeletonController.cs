@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class SkeletonController : MonoBehaviour
 {
+    AudioSource audioSource;
     Rigidbody rb;
     Animator animator;
     RockMovement rockMovement;
@@ -15,6 +16,7 @@ public class SkeletonController : MonoBehaviour
     int obstaclesLength;
     float speed = 9f;
 
+    [SerializeField] AudioClip obstacleDigSFX;
     [SerializeField] public Image flashImage;
     [SerializeField] Material flashMat;
     [SerializeField] GameObject minerQuantityFX;
@@ -22,7 +24,7 @@ public class SkeletonController : MonoBehaviour
 
     void Start()
     {
-        flashImage.canvasRenderer.SetAlpha(0.0f);
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         rockMovement = FindObjectOfType<RockMovement>();
         terrainDeformer = FindObjectOfType<TerrainDeformer>();
@@ -30,6 +32,7 @@ public class SkeletonController : MonoBehaviour
         animator = GetComponent<Animator>();
         obstaclesLength = GameObject.FindGameObjectsWithTag("Obstacle").Length;
         exitMine = GameObject.Find("ExitMine").transform;
+        flashImage.canvasRenderer.SetAlpha(0.0f);
     }
 
     void Update()
@@ -45,6 +48,7 @@ public class SkeletonController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Obstacle" && collision.gameObject.tag != "Terrain")
         {
+            AudioSource.PlayClipAtPoint(obstacleDigSFX, collision.gameObject.transform.position);
             animator.SetBool("isDigging", true);
             StartCoroutine(FlashObject(collision, "Obstacle", flashMat, 0.05f)); // third parameter is determine the sequence time between flashes
             DestroyObstacleAfterFlashObstacle(collision, 1.1f);
