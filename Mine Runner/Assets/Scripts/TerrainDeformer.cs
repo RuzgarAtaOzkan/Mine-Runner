@@ -27,7 +27,7 @@ public class TerrainDeformer : MonoBehaviour
     [SerializeField] Transform mineCart;
     [SerializeField] ParticleSystem sandDeformParticles;
     [SerializeField] AudioClip sandDeformSFX;
-    float minerQuantity = 60f;
+    float minerQuantity = 100f;
 
     [System.Obsolete]
     void Start()

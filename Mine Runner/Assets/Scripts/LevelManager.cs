@@ -18,8 +18,8 @@ public class LevelManager : MonoBehaviour
 
     public void LoadNextLevel()
     {
+        StartCoroutine(LoadNextLevelSMooth(0.5f));
         AudioSource.PlayClipAtPoint(levelPassSFX, Camera.main.transform.position);
-        StartCoroutine(LoadNextLevelSMooth(1f));
     }
 
     IEnumerator LoadNextLevelSMooth(float loadTime)
