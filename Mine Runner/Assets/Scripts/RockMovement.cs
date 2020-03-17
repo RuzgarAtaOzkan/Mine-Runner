@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using UnityEngine.Advertisements;
 
 public class RockMovement : MonoBehaviour
 {
@@ -55,6 +56,7 @@ public class RockMovement : MonoBehaviour
             StartCoroutine(skeletonController.FlashObject(collision, "Player", flashMat, 0.2f));
             StartCoroutine(FlashEffect(0.5f));
             Handheld.Vibrate();
+            
         }
     }
 
@@ -71,7 +73,10 @@ public class RockMovement : MonoBehaviour
         levelManager.ReLoadCurrentLevel();
         yield return new WaitForSeconds(0.5f);
         Time.timeScale = 0.4f;
-        
+        if (Advertisement.IsReady())
+        {
+            Advertisement.Show();
+        }
     }
 
     [Obsolete]
